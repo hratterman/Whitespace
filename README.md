@@ -6,6 +6,26 @@ brand is leaving money on the table, why, and what specifically to do about
 it. The output is a strategic deliverable — a diagnosed, argued, committable
 recommendation — not a dashboard of statistics.
 
+New here? **[QUICKSTART.md](QUICKSTART.md)** walks from zero to a finished
+report — first on the bundled example, then on your own brand.
+
+## Easiest path: install it as a Claude Code plugin
+
+The repo doubles as a Claude Code plugin (and its own marketplace). In any
+Claude Code session:
+
+```
+/plugin marketplace add hratterman/Whitespace
+/plugin install whitespace@whitespace
+```
+
+Then, in any project, just type **`/whitespace:analyze`** — or simply ask for
+a whitespace analysis in plain words. The skill is fully guided: it offers a
+demo, scaffolds your data directory, converts whatever messy catalog data
+you have into the input contract (interviewing you for what's missing), runs
+the compute layer, and writes the report. You never have to hand-format a
+file or read the docs.
+
 ## How it's shaped
 
 The work is split along the judgment line:
@@ -22,9 +42,10 @@ The work is split along the judgment line:
 
 Two ways to run the judgment layer:
 
-1. **Agent orchestration (recommended):** open this repo in Claude Code and
-   invoke the skill — `/whitespace <data-dir>`. The agent runs the compute
-   step, resolves unmapped SKUs, applies the method, and writes
+1. **Agent orchestration (recommended):** the guided skill —
+   `/whitespace:analyze` with the plugin installed, or `/whitespace` inside a
+   clone of this repo. The agent handles onboarding and data conversion, runs
+   the compute step, resolves unmapped SKUs, applies the method, and writes
    `<data-dir>/out/report.md`.
 2. **Paste seam:** `python3 -m whitespace prompt <data-dir>` writes
    `out/prompt.md` (method + output spec + analysis object in one prompt).

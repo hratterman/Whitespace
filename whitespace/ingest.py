@@ -136,7 +136,13 @@ def load_inputs(data_dir: str | Path) -> Inputs:
             raise FileNotFoundError(f"required input missing: {p}")
 
     brand_catalog = _load_catalog_csv(brand_path, flags, competitor_col=False)
+    if not brand_catalog:
+        raise ValueError(f"{brand_path} has no SKU rows yet — fill in the template "
+                         "(see the data directory's README.md)")
     comp_rows = _load_catalog_csv(comp_path, flags, competitor_col=True)
+    if not comp_rows:
+        raise ValueError(f"{comp_path} has no SKU rows yet — competitor assortment is "
+                         "required for benchmarking")
 
     competitor_catalogs: dict[str, list[Sku]] = {}
     for sku in comp_rows:

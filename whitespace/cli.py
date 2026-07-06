@@ -1,5 +1,8 @@
 """CLI: the deterministic half of the tool.
 
+  python -m whitespace init DATA_DIR [--brand NAME]
+      Scaffold a new data directory with fill-in templates.
+
   python -m whitespace analyze DATA_DIR [--out OUT_DIR]
       Validate inputs, compute the analysis object, write analysis.json.
 
@@ -20,6 +23,7 @@ from pathlib import Path
 from .assemble import build_analysis
 from .ingest import load_inputs
 from .prompt import build_prompt
+from .scaffold import init_data_dir
 
 
 def _analyze(data_dir: str, out_dir: Path) -> dict:
@@ -57,8 +61,21 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument("data_dir", help="directory with the input files")
         p.add_argument("--out", default=None,
                        help="output directory (default: DATA_DIR/out)")
+    p_init = sub.add_parser("init")
+    p_init.add_argument("data_dir", help="directory to scaffold")
+    p_init.add_argument("--brand", default=None, help="brand name for the templates")
 
     args = parser.parse_args(argv)
+    if args.command == "init":
+        written = init_data_dir(args.data_dir, args.brand)
+        if written:
+            print(f"scaffolded {args.data_dir}/: {', '.join(written)}")
+            print(f"\nFill in the templates (see {args.data_dir}/README.md), then run:"
+                  f"\n  python3 -m whitespace analyze {args.data_dir}")
+        else:
+            print(f"nothing to do — all template files already exist in {args.data_dir}/")
+        return 0
+
     out_dir = Path(args.out) if args.out else Path(args.data_dir) / "out"
     try:
         analysis = _analyze(args.data_dir, out_dir)

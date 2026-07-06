@@ -1,44 +1,43 @@
 ---
-name: whitespace
+name: analyze
 description: Guided category whitespace & merchandising analysis. Use when the user wants to analyze a brand's accessory/add-on assortment vs competitors, mentions whitespace, attach rate, assortment gaps, or merchandising strategy, or shows up with product catalog data — even messy data. Walks from zero to a strategist-grade report; no setup knowledge required.
 ---
 
-<!-- Repo-local variant. Keep the flow in sync with skills/analyze/SKILL.md (plugin variant); only the path/tool references differ. -->
+<!-- Plugin variant. Keep the flow in sync with .claude/skills/whitespace/SKILL.md (repo-local variant); only the path/tool references differ. -->
 
 # Whitespace analysis — guided flow
 
-You run the whole tool. The deterministic layer is the `whitespace/` package
-in this repo; you are the judgment layer. The user should never need to read
-documentation — carry them through every step and never make them format
-data themselves.
+You run the whole tool. The deterministic layer ships inside this plugin;
+you are the judgment layer. The user should never need to read documentation
+— carry them through every step and never make them format data themselves.
 
 ## How to run the tool
 
-From the repo root:
+Everything ships at `${CLAUDE_PLUGIN_ROOT}`:
 
-- Compute CLI: `python3 -m whitespace <cmd>`
-- Method (binding): `method/REASONING.md` and `method/OUTPUT_SPEC.md`
-- Demo fixture: `examples/meridian` (synthetic; reference deliverable
-  `sample-report.md` alongside it)
+- Compute CLI: `PYTHONPATH="${CLAUDE_PLUGIN_ROOT}" python3 -m whitespace <cmd>`
+- Method (binding): `${CLAUDE_PLUGIN_ROOT}/method/REASONING.md` and `OUTPUT_SPEC.md`
+- Demo fixture: `${CLAUDE_PLUGIN_ROOT}/examples/meridian` (synthetic; reference
+  deliverable `sample-report.md` alongside it)
 
-Requires `pyyaml` — check once with `python3 -c "import yaml"` and
-`pip install pyyaml` if missing.
+Requires `python3` with `pyyaml` — check once with `python3 -c "import yaml"`
+and `pip install pyyaml` if missing. Write all data and outputs under the
+user's project (e.g. `whitespace/<brand>/`), never into the plugin directory.
 
 ## Step 1 — meet the user where they are
 
 - Argument is a directory containing `brand_catalog.csv` → go to **Analyze**.
 - Argument is `demo`, or the user just wants to see what the tool does → **Demo**.
-- No argument: search the project for `brand_catalog.csv` (ignore
-  `examples/`). Exactly one match → confirm and use it. Several → ask which.
-  None → **Onboard**.
+- No argument: search the project for `brand_catalog.csv`. Exactly one match →
+  confirm and use it. Several → ask which. None → **Onboard**.
 
 ## Demo
 
 ```
-python3 -m whitespace analyze examples/meridian
+PYTHONPATH="${CLAUDE_PLUGIN_ROOT}" python3 -m whitespace analyze "${CLAUDE_PLUGIN_ROOT}/examples/meridian" --out ./whitespace-demo
 ```
 
-Then run **Reason & write** with output to `examples/meridian/out/report.md`.
+Then run **Reason & write** with output to `./whitespace-demo/report.md`.
 Tell the user the fixture is synthetic and that the same flow runs on their
 own brand whenever they're ready.
 
@@ -47,7 +46,7 @@ own brand whenever they're ready.
 1. One AskUserQuestion round: the brand name; what they have for its catalog
    (a storefront export / something they can paste / nothing yet); which 2–3
    competitors matter.
-2. Scaffold: `python3 -m whitespace init data/<brand-slug> --brand "<Brand Name>"`
+2. Scaffold: `PYTHONPATH="${CLAUDE_PLUGIN_ROOT}" python3 -m whitespace init whitespace/<brand-slug> --brand "<Brand Name>"`
 3. **Brand catalog** — convert whatever they give you (CSV/XLSX export,
    pasted product list, a document) into `brand_catalog.csv`. Rules: keep the
    storefront's own category names as `raw_category` (the tool's taxonomy
@@ -73,26 +72,27 @@ own brand whenever they're ready.
 ## Analyze
 
 ```
-python3 -m whitespace analyze <data-dir>
+PYTHONPATH="${CLAUDE_PLUGIN_ROOT}" python3 -m whitespace analyze <data-dir>
 ```
 
 - Contract errors: explain what's malformed and fix it *with* the user's
   data — never silently repair or fabricate.
-- Unmapped SKUs: if more than ~10% of a catalog, copy the root
-  `taxonomy.yaml` into the data dir and add exact mappings for that
-  storefront's category names; otherwise resolve them individually during
-  reasoning.
+- Unmapped SKUs: if more than ~10% of a catalog, copy
+  `${CLAUDE_PLUGIN_ROOT}/taxonomy.yaml` into the data dir and add exact
+  mappings for that storefront's category names; otherwise resolve them
+  individually during reasoning.
 - Note every data flag; they travel to the report appendix.
 
 ## Reason & write (binding)
 
-Read `method/REASONING.md` and `method/OUTPUT_SPEC.md` **in full**, plus the
-generated `out/analysis.json`. Resolve every unmapped SKU (bucket + one-line
-reason → appendix). Apply the method exactly: diagnose problem *type* before
-size; lead with composition, not concentration; benchmark behavior, not
-presence; merchandise-first sequencing. Write the deliverable to
-`<data-dir>/out/report.md` following the output spec — headline-led
-sections, every claim paired with evidence and an action.
+Read `${CLAUDE_PLUGIN_ROOT}/method/REASONING.md` and
+`${CLAUDE_PLUGIN_ROOT}/method/OUTPUT_SPEC.md` **in full**, plus the generated
+`out/analysis.json`. Resolve every unmapped SKU (bucket + one-line reason →
+appendix). Apply the method exactly: diagnose problem *type* before size;
+lead with composition, not concentration; benchmark behavior, not presence;
+merchandise-first sequencing. Write the deliverable to `<data-dir>/out/report.md`
+following the output spec — headline-led sections, every claim paired with
+evidence and an action.
 
 ## Deliver
 

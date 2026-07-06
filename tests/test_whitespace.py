@@ -1,11 +1,13 @@
 """Stdlib-only tests: python3 -m unittest discover -s tests"""
 
+import tempfile
 import unittest
 from pathlib import Path
 
 from whitespace import compute
 from whitespace.assemble import build_analysis
 from whitespace.ingest import Sku, _check_shares, load_inputs
+from whitespace.scaffold import init_data_dir
 from whitespace.taxonomy import apply_taxonomy, load_taxonomy
 
 REPO = Path(__file__).resolve().parent.parent
@@ -118,6 +120,32 @@ class TestEndToEnd(unittest.TestCase):
         # public layer intact
         self.assertTrue(analysis["catalog_composition"]["competitors"])
         self.assertTrue(analysis["comparable_price_candidates"])
+
+
+class TestScaffold(unittest.TestCase):
+    def test_init_writes_templates_without_activating_full_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            written = init_data_dir(Path(tmp) / "acme", "Acme Bikes")
+            self.assertIn("brand_catalog.csv", written)
+            # the buyer template must NOT be named buyer_behavior.yaml,
+            # or a fresh scaffold would claim full-diagnostic mode
+            self.assertNotIn("buyer_behavior.yaml", written)
+            self.assertIn("buyer_behavior.template.yaml", written)
+
+    def test_init_never_overwrites(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "acme"
+            init_data_dir(target)
+            (target / "brand_catalog.csv").write_text("user data")
+            self.assertEqual(init_data_dir(target), [])
+            self.assertEqual((target / "brand_catalog.csv").read_text(), "user data")
+
+    def test_empty_scaffold_errors_helpfully(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "acme"
+            init_data_dir(target)
+            with self.assertRaisesRegex(ValueError, "no SKU rows yet"):
+                load_inputs(target)
 
 
 if __name__ == "__main__":

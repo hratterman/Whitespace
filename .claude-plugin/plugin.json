@@ -1,0 +1,10 @@
+{
+  "name": "whitespace",
+  "displayName": "Category Whitespace Tool",
+  "description": "Guided category whitespace & merchandising analysis: point it at any brand's accessory catalog and competitors, get a strategist-grade report. Includes /whitespace:analyze.",
+  "version": "0.2.0",
+  "author": { "name": "Henry Ratterman" },
+  "repository": "https://github.com/hratterman/Whitespace",
+  "license": "MIT",
+  "keywords": ["category-management", "assortment", "merchandising", "whitespace", "retail-strategy"]
+}
