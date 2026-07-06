@@ -3,6 +3,23 @@
 From zero to a finished whitespace report — first on the bundled example
 (~5 minutes), then on your own brand.
 
+## Part 0 — The no-effort path (Claude Code plugin)
+
+If you use Claude Code, you can skip everything below. Install the plugin:
+
+```
+/plugin marketplace add hratterman/Whitespace
+/plugin install whitespace@whitespace
+```
+
+Then in any project type `/whitespace:analyze` (or just ask for a whitespace
+analysis). The skill is fully guided: it offers the demo, scaffolds your data
+directory, converts whatever catalog data you have — an export, a pasted
+product list, or nothing yet — into the input contract, asks you the few
+questions only you can answer (competitors, merchandising observations,
+whether you have buyer data), then computes and writes the report. The rest
+of this guide is for running the pieces yourself.
+
 ## What you need
 
 - **Python 3.10+** and one dependency: `pip install -r requirements.txt` (PyYAML).
@@ -75,8 +92,16 @@ Troubleshooting.
 
 ## Part 2 — Run it on your own brand
 
-Create a directory (say `data/acme/`) with these files. Copy the Meridian
-files as templates — the formats are identical.
+Scaffold a data directory with commented fill-in templates:
+
+```bash
+python3 -m whitespace init data/acme --brand "Acme Bikes"
+```
+
+That writes header-only CSVs, a commented `merchandising.yaml`, a
+`buyer_behavior.template.yaml` (inert until you fill it in and rename it),
+and a README recapping what goes where. The Meridian files remain the
+worked reference for every format. What goes in each file:
 
 ### 1. `brand_catalog.csv` (required)
 
@@ -113,11 +138,13 @@ self-explanatory, and each entry takes a `source` (e.g. "storefront audit,
 ### 4. `buyer_behavior.yaml` (optional — unlocks full-diagnostic mode)
 
 If you have buyer-survey data (attach rate, median spend, channel split,
-purchase mix, affinity indices), add it in the shape of
-`examples/meridian/buyer_behavior.yaml`. **Without this file the tool still
-runs** — it degrades cleanly to public-data mode (composition, pricing,
-merchandising critique, packs) and simply won't claim behavioral facts it
-can't see.
+purchase mix, affinity indices), fill in the scaffolded
+`buyer_behavior.template.yaml` and rename it to `buyer_behavior.yaml` —
+the template name is deliberately inert so a half-filled file can't
+accidentally activate the diagnostic layer. **Without this file the tool
+still runs** — it degrades cleanly to public-data mode (composition,
+pricing, merchandising critique, packs) and simply won't claim behavioral
+facts it can't see.
 
 Mind the two figure types: `purchase_mix` is share of *purchases* (sums
 to 1); `attach_rate` is the only share-of-*buyers* figure. Don't put
