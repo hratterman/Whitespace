@@ -1,0 +1,52 @@
+# SYNTHETIC demonstration data — all brands, products, and figures fictional.
+# Merchandising attributes from a (simulated) public storefront audit.
+
+brand:
+  name: Meridian Trucks
+  storefront: own e-commerce site + dealer parts counters
+  bundles: false
+  named_packs: []
+  curation_level: none
+  curation_notes: >
+    Accessories listed alphabetically within part-type categories; browsing
+    is by part type with a fitment filter, not by use case or build; no
+    imagery of accessorized trucks on model pages; the vehicle configurator
+    does not offer accessories at point of order.
+  bespoke: false
+  notes: >
+    Sport Cat-Back Exhaust (MR-4001) is a rebranded supplier unit (aluminized
+    steel, single tip) sold at near-parity with competitors' stainless
+    dual-tip systems.
+  source: simulated storefront audit, 2026-06
+
+competitors:
+  - name: Northstar Motors
+    bundles: true
+    named_packs: [Backcountry Pack, Worksite Pack, Tow Ready Pack, Night Runner Pack]
+    curation_level: strong
+    curation_notes: >
+      Storefront leads with shop-by-build journeys ("Overland", "Work",
+      "Street") and lifestyle imagery; packs are selectable in the vehicle
+      configurator at point of order; model pages show accessorized builds.
+    bespoke: true
+    bespoke_notes: made-to-order interior trim and exterior graphics program
+    source: simulated storefront audit, 2026-06
+
+  - name: Copperline Auto
+    bundles: false
+    named_packs: [Speedworks Stage 1 Kit]
+    curation_level: basic
+    curation_notes: >
+      Dedicated Speedworks performance microsite with strong storytelling;
+      the main accessory store remains a part-number catalog with a fitment
+      filter.
+    bespoke: false
+    source: simulated storefront audit, 2026-06
+
+  - name: Vantage Trucks
+    bundles: false
+    named_packs: []
+    curation_level: none
+    curation_notes: part-number catalog with fitment filter only
+    bespoke: false
+    source: simulated storefront audit, 2026-06

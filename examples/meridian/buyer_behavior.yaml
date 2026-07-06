@@ -1,0 +1,66 @@
+# SYNTHETIC demonstration data, styled after a syndicated new-vehicle
+# accessory buyer survey. Not real market data. Remove this file to run the
+# example in public-data mode.
+
+source: SYNTHETIC demonstration data (styled after a syndicated accessory buyer survey)
+
+brand:
+  # attach_rate: share of buyers purchasing any accessory (the only "% of customers")
+  attach_rate: 0.64
+  # median accessory spend per purchasing buyer, first 12 months of ownership
+  median_spend: 310
+  # channel_capture: share of accessory purchases by channel, sums to 1
+  channel_capture:
+    own_channel: 0.34
+    internet: 0.44
+    aftermarket_store: 0.17
+    other: 0.05
+  # purchase_mix: share of accessory purchases by bucket, sums to 1 (mix %, NOT penetration)
+  purchase_mix:
+    commodity_protection: 0.48
+    exterior_personalization: 0.14
+    utility_cargo_towing: 0.24
+    performance: 0.05
+    lifestyle_whitespace: 0.02
+    other: 0.07
+  # affinity_index: buyer-base interest indices, 100 = general-population par
+  affinity_index:
+    camping_outdoors: 124
+    fishing_hunting: 118
+    home_improvement_diy: 111
+    pets: 97
+    boating: 88
+    golf: 72
+
+benchmarks:
+  - name: Northstar Motors
+    attach_rate: 0.66
+    median_spend: 520
+    channel_capture:
+      own_channel: 0.52
+      internet: 0.31
+      aftermarket_store: 0.13
+      other: 0.04
+    purchase_mix:
+      commodity_protection: 0.29
+      exterior_personalization: 0.31
+      utility_cargo_towing: 0.22
+      performance: 0.08
+      lifestyle_whitespace: 0.05
+      other: 0.05
+
+  - name: Copperline Auto
+    attach_rate: 0.63
+    median_spend: 350
+    channel_capture:
+      own_channel: 0.38
+      internet: 0.41
+      aftermarket_store: 0.16
+      other: 0.05
+    purchase_mix:
+      commodity_protection: 0.45
+      exterior_personalization: 0.16
+      utility_cargo_towing: 0.23
+      performance: 0.07
+      lifestyle_whitespace: 0.02
+      other: 0.07
