@@ -6,6 +6,9 @@ brand is leaving money on the table, why, and what specifically to do about
 it. The output is a strategic deliverable — a diagnosed, argued, committable
 recommendation — not a dashboard of statistics.
 
+New here? **[QUICKSTART.md](QUICKSTART.md)** walks from zero to a finished
+report — first on the bundled example, then on your own brand.
+
 ## How it's shaped
 
 The work is split along the judgment line:
