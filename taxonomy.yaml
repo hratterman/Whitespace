@@ -1,0 +1,97 @@
+# Category-to-bucket taxonomy — the explicit, inspectable mapping layer.
+#
+# Buckets are the category *types* the composition analysis runs on (spec §6.2).
+# Deterministic code applies `mapping` rules in order: exact raw-category match,
+# then keyword rules against the raw category, then against the SKU name.
+# Anything unmatched is surfaced as `unmapped` for the model to resolve — it is
+# never silently binned. Model resolutions are recorded in the analysis object
+# so every mapping decision stays auditable.
+#
+# The keyword rules below are tuned for vehicle accessories. For another
+# domain (appliances, bikes, cameras...), drop a taxonomy.yaml with
+# domain-appropriate keywords into the data directory; it overrides this file.
+# Rule order matters: first match wins, so put the more specific buckets first.
+
+buckets:
+  commodity_protection:
+    label: "Commodity / Protection"
+    description: >
+      Functional basics that protect the product: mats, liners, covers,
+      guards, protective films. High-attach, low-emotion, low ceiling on spend.
+  exterior_personalization:
+    label: "Visible / Exterior Personalization"
+    description: >
+      Presence-and-stance items visible from ten feet away: running boards,
+      step bars, wheels, lift kits, roof racks as statement, trim, graphics,
+      lighting. The bucket that typically grows spend per buyer.
+  utility_cargo_towing:
+    label: "Utility / Cargo / Towing"
+    description: >
+      Items that let the product do more work: towing, bed/cargo management,
+      carriers, storage, organization.
+  performance:
+    label: "Performance"
+    description: >
+      Items that change how the product performs: exhaust, intake, suspension,
+      tuning, brakes.
+  lifestyle_whitespace:
+    label: "Lifestyle / White-space"
+    description: >
+      Adjacent-life categories: pet, cooler/outdoor, tech and electronics
+      comfort, fragrance, apparel-adjacent. Margin/halo territory, not volume.
+  other:
+    label: "Other"
+    description: >
+      Genuinely uncategorizable after review. Assignments here should be rare
+      and deliberate, made by the model with a recorded reason — the
+      deterministic rules never place anything in this bucket.
+
+mapping:
+  # Exact raw-category matches (normalized: lowercase, punctuation stripped).
+  exact:
+    "floor liners": commodity_protection
+    "floor mats": commodity_protection
+    "seat covers": commodity_protection
+    "paint protection": commodity_protection
+    "bed protection": commodity_protection
+    "exterior protection": commodity_protection
+    "interior protection": commodity_protection
+    "cargo protection": commodity_protection
+    "security": commodity_protection
+    "tonneau covers": utility_cargo_towing
+    "exterior lighting": exterior_personalization
+    "running boards": exterior_personalization
+    "step bars": exterior_personalization
+    "wheels": exterior_personalization
+    "lift kits": exterior_personalization
+    "exterior trim": exterior_personalization
+    "towing": utility_cargo_towing
+    "bed accessories": utility_cargo_towing
+    "cargo management": utility_cargo_towing
+    "racks and carriers": utility_cargo_towing
+    "performance parts": performance
+    "pet accessories": lifestyle_whitespace
+    "camping and outdoor": lifestyle_whitespace
+
+  # Keyword rules, first match wins. Checked against raw category, then name.
+  keywords:
+    - bucket: performance
+      any: [exhaust, intake, tuner, suspension upgrade, coilover, brake kit,
+            supercharger, performance, sway bar, cat-back, air filter kit]
+    - bucket: lifestyle_whitespace
+      any: [pet, dog, cooler, tent, fridge, fragrance, scent, coffee,
+            camp, awning, bike mount, kayak, paddle, apparel, umbrella]
+    - bucket: exterior_personalization
+      any: [running board, step bar, nerf bar, side step, wheel, rim, lift kit,
+            leveling kit, fender flare, grille, graphic, decal, stripe, spoiler,
+            emblem, badge, light bar, led light, fog light, bull bar, brush
+            guard, exhaust tip, roof basket, hood protector, window deflector,
+            chrome, blackout]
+    - bucket: utility_cargo_towing
+      any: [tow, hitch, trailer, winch, tonneau, bed extender,
+            cargo, rack, carrier, crossbars, storage, organizer, toolbox,
+            tie-down, ramp, divider, net]
+    - bucket: commodity_protection
+      any: [mat, liner, cover, guard, protector, protection, film, mud flap,
+            splash, wheel lock, lock set, first aid, safety kit, sunshade,
+            weather]
