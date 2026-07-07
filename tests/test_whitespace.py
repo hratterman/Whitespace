@@ -1,5 +1,6 @@
 """Stdlib-only tests: python3 -m unittest discover -s tests"""
 
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -7,6 +8,7 @@ from pathlib import Path
 from whitespace import compute
 from whitespace.assemble import build_analysis
 from whitespace.ingest import Sku, _check_shares, load_inputs
+from whitespace.render import render, validate_report
 from whitespace.scaffold import init_data_dir
 from whitespace.taxonomy import apply_taxonomy, load_taxonomy
 
@@ -128,6 +130,49 @@ class TestEndToEnd(unittest.TestCase):
         self.assertTrue(analysis["comparable_price_candidates"])
 
 
+class TestFlexibleIngestion(unittest.TestCase):
+    MERCH = ("brand: {name: T, bundles: false, named_packs: [], "
+             "curation_level: none, bespoke: false, source: t}\ncompetitors:\n"
+             "  - {name: R, bundles: false, named_packs: [], curation_level: none, "
+             "bespoke: false, source: t}\n")
+
+    def _dir(self, tmp, brand_csv, comp_csv=None):
+        d = Path(tmp)
+        (d / "brand_catalog.csv").write_text(brand_csv)
+        (d / "competitor_catalog.csv").write_text(
+            comp_csv or "competitor,sku_id,name,raw_category,price\nR,R1,Mats,Floor Mats,10\n")
+        (d / "merchandising.yaml").write_text(self.MERCH)
+        return d
+
+    def test_aliased_headers_resolve_with_flags(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            d = self._dir(tmp, "SKU,Product,Category,MSRP\nA1,Floor Mats,Floor Mats,$79\n")
+            inputs = load_inputs(d)
+            sku = inputs.brand_catalog[0]
+            self.assertEqual((sku.sku_id, sku.name, sku.raw_category, sku.price),
+                             ("A1", "Floor Mats", "Floor Mats", 79.0))
+            self.assertTrue(any("'MSRP' as 'price'" in f for f in inputs.data_flags))
+
+    def test_semicolon_delimiter_and_bom(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            d = self._dir(tmp, "﻿name;category;price\nFloor Mats;Floor Mats;79\n")
+            sku = load_inputs(d).brand_catalog[0]
+            self.assertEqual((sku.name, sku.price), ("Floor Mats", 79.0))
+
+    def test_priceless_catalog_degrades_with_flag(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            d = self._dir(tmp, "name,category\nFloor Mats,Floor Mats\n")
+            inputs = load_inputs(d)
+            self.assertIsNone(inputs.brand_catalog[0].price)
+            self.assertTrue(any("no price column" in f for f in inputs.data_flags))
+
+    def test_unusable_headers_error_names_accepted_ones(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            d = self._dir(tmp, "foo,bar\nx,y\n")
+            with self.assertRaisesRegex(ValueError, "no usable column"):
+                load_inputs(d)
+
+
 class TestSolsticeFixture(unittest.TestCase):
     """Second-domain fixture: taxonomy override + public-data mode."""
 
@@ -163,6 +208,49 @@ class TestSolsticeFixture(unittest.TestCase):
                  for p in self.analysis["comparable_price_candidates"]}
         self.assertIn(("Bottomless Portafilter 58mm", "Bottomless Portafilter 58mm"),
                       pairs)
+
+
+class TestRender(unittest.TestCase):
+    def _pair(self, example):
+        d = REPO / "examples" / example
+        analysis = build_analysis(load_inputs(d), str(d))
+        report = json.loads((d / "sample-report.json").read_text())
+        return analysis, report
+
+    def test_both_fixture_reports_meet_spec_and_render(self):
+        for example in ("meridian", "solstice"):
+            analysis, report = self._pair(example)
+            self.assertEqual(validate_report(report, analysis), [], example)
+            with tempfile.TemporaryDirectory() as tmp:
+                written = render(analysis, report, Path(tmp))
+                self.assertEqual([w.name for w in written], ["deck.html", "onepager.html"])
+                deck = (Path(tmp) / "deck.html").read_text()
+                self.assertIn(report["title"], deck)
+                self.assertNotIn("/*__PAYLOAD__*/", deck)
+
+    def test_render_refuses_incomplete_report(self):
+        analysis, report = self._pair("meridian")
+        del report["next_step"]
+        report["recommendation"]["now"] = []
+        problems = validate_report(report, analysis)
+        self.assertIn("next_step", problems)
+        self.assertIn("recommendation.now", problems)
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "REPORT_SPEC"):
+                render(analysis, report, Path(tmp))
+
+    def test_render_refuses_dropped_data_flags(self):
+        analysis, report = self._pair("meridian")
+        analysis["data_flags"] = ["something important"]
+        report["appendix"]["data_flags"] = []
+        self.assertTrue(any("carried through" in p
+                            for p in validate_report(report, analysis)))
+
+    def test_mix_source_requires_diagnostic(self):
+        analysis, report = self._pair("solstice")   # public mode
+        report["composition"]["source"] = "purchase_mix"
+        self.assertTrue(any("no diagnostic data" in p
+                            for p in validate_report(report, analysis)))
 
 
 class TestScaffold(unittest.TestCase):

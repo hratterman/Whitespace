@@ -24,6 +24,18 @@ Requires `python3` with `pyyaml` — check once with `python3 -c "import yaml"`
 and `pip install pyyaml` if missing. Write all data and outputs under the
 user's project (e.g. `whitespace/<brand>/`), never into the plugin directory.
 
+## Fit — what to point this at
+
+Best fit: any brand with a **core product plus an attach/add-on catalog** —
+vehicles, espresso machines, bikes, cameras, grills, power tools, gaming
+hardware, furniture. The premise generalizes: if the user's domain isn't
+automotive, copy the plugin's `taxonomy.yaml` into the data dir and re-label
+buckets/keywords for their domain (keep the bucket *keys*; the method reasons
+over the types — commodity vs visible personalization vs utility vs
+performance vs lifestyle). If the premise genuinely doesn't fit — a
+single-product brand with no add-on economics, a pure service — say so
+honestly and suggest what analysis would fit, rather than forcing the frame.
+
 ## Step 1 — meet the user where they are
 
 - Argument is a directory containing `brand_catalog.csv` → go to **Analyze**.
@@ -85,21 +97,36 @@ PYTHONPATH="${CLAUDE_PLUGIN_ROOT}" python3 -m whitespace analyze <data-dir>
 
 ## Reason & write (binding)
 
-Read `${CLAUDE_PLUGIN_ROOT}/method/REASONING.md` and
-`${CLAUDE_PLUGIN_ROOT}/method/OUTPUT_SPEC.md` **in full**, plus the generated
+Read `${CLAUDE_PLUGIN_ROOT}/method/REASONING.md`,
+`${CLAUDE_PLUGIN_ROOT}/method/OUTPUT_SPEC.md`, and
+`${CLAUDE_PLUGIN_ROOT}/method/REPORT_SPEC.md` **in full**, plus the generated
 `out/analysis.json`. Resolve every unmapped SKU (bucket + one-line reason →
 appendix). Apply the method exactly: diagnose problem *type* before size;
 lead with composition, not concentration; benchmark behavior, not presence;
-merchandise-first sequencing. Write the deliverable to `<data-dir>/out/report.md`
-following the output spec — headline-led sections, every claim paired with
-evidence and an action.
+merchandise-first sequencing. Then write BOTH judgment artifacts to
+`<data-dir>/out/`:
+
+1. `report.md` — the narrative deliverable per OUTPUT_SPEC.md.
+2. `report.json` — the same judgments in structured form per REPORT_SPEC.md.
+
+## Render the presentation formats
+
+```
+PYTHONPATH="${CLAUDE_PLUGIN_ROOT}" python3 -m whitespace render <data-dir>
+```
+
+This produces `deck.html` (a self-contained slide deck: keyboard navigation,
+charts, print-to-PDF) and `onepager.html` (executive one-pager) from your
+report.json — deterministically, so never hand-write deck HTML. If render
+rejects the report, fix the listed fields and re-run.
 
 ## Deliver
 
-Send the user `report.md` and summarize in 2–3 sentences: the diagnosis, the
-top recommendation, and the proposed next step. Offer follow-ups: rerun in
-full-diagnostic mode when buyer data arrives, or validate the tool on a
-second brand.
+Send the user all three formats — `deck.html` (render it inline so they see
+it immediately), `report.md`, and `onepager.html` — and summarize in 2–3
+sentences: the diagnosis, the top recommendation, and the proposed next
+step. Offer follow-ups: rerun in full-diagnostic mode when buyer data
+arrives, or validate on a second brand.
 
 ## Guardrails
 

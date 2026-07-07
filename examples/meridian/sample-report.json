@@ -1,0 +1,126 @@
+{
+  "title": "The Accessory Buyer Is Already Here — We're Just Not Selling to Them",
+  "subtitle": "Meridian Trucks · category whitespace & merchandising analysis · full-diagnostic mode",
+  "badge": "Synthetic demonstration data",
+  "why_it_matters": "Meridian's buyers attach accessories at the same rate as the best benchmark but spend $210 less per buyer doing it ($310 vs $520 median) — and 44% of what they buy, they buy on the internet instead of from us. Closing part of that gap is worth on the order of $130+ per vehicle sold, with most of the fix requiring no new products.",
+
+  "diagnosis": {
+    "verdict": "This is a merchandising problem, not a demand problem.",
+    "narrative": "Normal attach + low spend + basic mix + high leakage is the signature of an under-merchandised catalog, not weak demand. Nearly two-thirds of Meridian buyers already walk in wanting accessories — they buy cheap protective basics from us and everything more interesting from someone else, somewhere else. Any recommendation built on demand generation would be spending money to create a customer we already have.",
+    "pattern": [
+      { "question": "Attach", "sub": "do buyers buy anything?", "brand_display": "64%", "benchmark_display": "66% (Northstar)", "read": "Normal — demand exists", "tone": "good" },
+      { "question": "Spend", "sub": "median per buyer", "brand_display": "$310", "benchmark_display": "$520 (Northstar)", "read": "40% below benchmark", "tone": "bad" },
+      { "question": "Mix", "sub": "share of purchases", "brand_display": "48%", "benchmark_display": "29% commodity (Northstar)", "read": "Basic, commodity-heavy", "tone": "warn" },
+      { "question": "Channel", "sub": "own-channel capture", "brand_display": "34%", "benchmark_display": "52% (Northstar)", "read": "Leaking — 44% to internet", "tone": "bad" }
+    ]
+  },
+
+  "composition": {
+    "headline": "We under-sell the categories that grow spend",
+    "narrative": "Meridian buyers put nearly half their accessory dollars into mats, liners, and guards — the high-attach, low-ceiling bucket. Northstar's buyers put 31% into visible personalization, the bucket that carries their $520 median spend. That 17-point personalization gap is the spend gap.",
+    "source": "purchase_mix",
+    "entities": ["Meridian Trucks", "Northstar Motors", "Copperline Auto"],
+    "callout_bucket": "exterior_personalization"
+  },
+
+  "benchmark_note": {
+    "headline": "Copperline is the cautionary tale: presence isn't behavior",
+    "narrative": "Copperline's Speedworks performance sub-brand occupies 25% of its catalog, yet performance is just 7% of what its buyers purchase — and its median spend is $350, barely above Meridian. Shelf presence alone does not move buyers. Northstar's difference is that it merchandises the shift: four named packs sold in the configurator, shop-by-build journeys, accessorized trucks on every model page. Among brands whose customers actually buy personalization, Meridian's do not — and the winning mechanism is merchandising, not ranging more SKUs."
+  },
+
+  "channel": {
+    "headline": "18 points of recapture headroom",
+    "narrative": "Meridian captures 34% of its buyers' accessory purchases in its own channel; 44% goes to the internet. Northstar captures 52% at equal attach. These are purchases that already happen, by our buyers, in categories we already stock — the fix is digital merchandising and point-of-order bundles, not product.",
+    "entities": ["Meridian Trucks", "Northstar Motors", "Copperline Auto"]
+  },
+
+  "storefront_critique": {
+    "headline": "A parts counter, not a store",
+    "bullets": [
+      "Accessories listed alphabetically within part-type categories; the only navigation aid is a fitment filter.",
+      "No accessorized trucks anywhere — a buyer cannot see what a Talon looks like with boards, a tonneau, and a bed tent on it.",
+      "No bundles, no named packs, no guidance — 33 SKUs presented flat, the $1,249 exhaust listed with the same weight as a $45 door-edge guard.",
+      "The configurator sells zero accessories at the moment of highest intent: point of vehicle order."
+    ]
+  },
+
+  "merchandising_benchmark": {
+    "headline": "The leaders sell the journey, not the part number",
+    "narrative": "Vantage shows the default outcome of doing nothing. Copperline shows a half-measure — storytelling for one niche its buyers don't convert on. Northstar runs the full playbook, and its buyers' mix and spend follow."
+  },
+
+  "packs": {
+    "headline": "Three packs, shippable this quarter",
+    "narrative": "Meridian's buyer base over-indexes on camping/outdoors (124), fishing/hunting (118), and DIY (111). Every SKU below already exists. Pets index at par (97) — a later niche test at most; golf indexes at 72, so golf theming would be a gimmick and we recommend against it.",
+    "items": [
+      { "name": "Basecamp Pack", "target": "Talon · the camping weekender", "grounding": "affinity 124",
+        "skus": [
+          { "name": "Basecamp Bed Tent", "price": "$329" },
+          { "name": "Heavy-Duty Bed Mat", "price": "$139" },
+          { "name": "Bed Tie-Down Cleats", "price": "$69" },
+          { "name": "All-Weather Floor Liners (both rows)", "price": "$228" }
+        ],
+        "component_sum": "$765", "bundle_price": "$699" },
+      { "name": "Backroads Pack", "target": "Talon · the fishing & hunting buyer", "grounding": "affinity 118",
+        "skus": [
+          { "name": "Soft Roll-Up Tonneau Cover", "price": "$479" },
+          { "name": "Splash Guards", "price": "$89" },
+          { "name": "Mud Flaps", "price": "$75" },
+          { "name": "Under-Seat Storage Bin", "price": "$179" }
+        ],
+        "component_sum": "$822", "bundle_price": "$749" },
+      { "name": "Weekend Workhorse Pack", "target": "Talon · the DIY project hauler", "grounding": "affinity 111",
+        "skus": [
+          { "name": "Trailer Hitch Receiver (Class IV)", "price": "$429" },
+          { "name": "Trailer Wiring Harness", "price": "$79" },
+          { "name": "Tow Mirrors", "price": "$359" },
+          { "name": "Bed Cargo Divider", "price": "$199" }
+        ],
+        "component_sum": "$1,066", "bundle_price": "$979" }
+    ]
+  },
+
+  "pricing_note": {
+    "headline": "Pricing is not the problem. One product is.",
+    "narrative": "On confirmed comparable items Meridian sits in a ±10% band around peers — modestly above discount players, below peers where we compete on spec. No broad pricing action. One flag: the Sport Cat-Back Exhaust at $1,249 is a rebranded aluminized single-tip unit at near-parity with competitors' stainless systems ($1,149–$1,195). A similar price is hiding an inferior product — upgrade or reposition it; don't discount it."
+  },
+
+  "recommendation": {
+    "now": [
+      { "action": "Launch the three packs", "detail": "On the storefront at bundle pricing, mapped to demonstrated affinities." },
+      { "action": "Re-merchandise the store", "detail": "Shop-by-build journeys, accessorized Talon imagery on model pages, top sellers surfaced, a guided build flow instead of the alphabetical list." },
+      { "action": "Put accessories into the configurator", "detail": "Led by the packs, at point of vehicle order — the one Now item with an IT dependency; start it first." },
+      { "action": "Run the recapture play", "detail": "Pack pricing plus a fitment guarantee positions the own channel against the internet sellers taking 44% of purchases." }
+    ],
+    "next": [
+      { "action": "Build the exterior-personalization range", "detail": "Second running-board finish, an 18–20\" wheel range, blackout trim, graphics — closing the offer-side gap behind the 17-point mix gap." },
+      { "action": "Fix or reposition the exhaust", "detail": "Stainless, dual-tip — or exit the price point." },
+      { "action": "Pilot bespoke/made-to-order", "detail": "Interior trim first, following the proven Northstar program." },
+      { "action": "Test the pet niche only if affinity confirms", "detail": "Explicitly a halo play; never sized as volume." }
+    ]
+  },
+
+  "next_step": {
+    "headline": "One low-cost proof, 90 days",
+    "narrative": "Launch the Basecamp Pack and one accessorized-Talon build page, instrumented: attach of included SKUs, bundle take rate, own-channel share vs baseline. In parallel, pull per-SKU sales by channel — the one dataset this analysis lacked."
+  },
+
+  "appendix": {
+    "mapping_resolutions": [
+      { "sku": "MR-6001 Cabin Air Ionizer", "bucket": "lifestyle_whitespace", "reason": "in-cab comfort/tech adjacency, not protection or utility" },
+      { "sku": "MR-6002 Power Tailgate Assist", "bucket": "utility_cargo_towing", "reason": "powered bed-access function" },
+      { "sku": "MR-6003 Emergency Roadside Assistance Kit", "bucket": "commodity_protection", "reason": "functional safety basic" }
+    ],
+    "comparability_calls": [
+      "Bed Cargo Divider vs Copperline Bed Cargo Net — rejected: different products",
+      "Basecamp Bed Tent vs Northstar Rooftop Tent — rejected: different product classes",
+      "18\" vs 19\" alloy wheel and Class IV vs Class III hitch — adjacent specs, used directionally only"
+    ],
+    "data_flags": [
+      "All buyer-behavior figures are synthetic demonstration data styled after a syndicated accessory-buyer survey — no figure here is real market data.",
+      "Merchandising attributes come from a simulated storefront audit (June 2026).",
+      "Dollar sizing is directional throughout; no volume data was supplied."
+    ],
+    "figure_types_note": "Attach rate = share of buyers purchasing any accessory (the only '% of customers' figure). Purchase mix = share of purchases, sums to 100% per brand. Catalog share = share of SKUs offered (offer-side, not behavioral). Channel share = share of purchases by channel. Affinity index: 100 = population par."
+  }
+}

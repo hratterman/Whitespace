@@ -121,6 +121,7 @@ def channel_math(buyer_behavior: dict) -> dict | None:
             result["benchmark_gaps"].append({
                 "benchmark": bench.get("name"),
                 "benchmark_own_channel": bc["own_channel"],
+                "benchmark_channels": bc,
                 "capture_gap_points": round(bc["own_channel"] - own, 4),
             })
     return result

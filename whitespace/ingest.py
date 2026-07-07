@@ -56,6 +56,64 @@ def _read_yaml(path: Path) -> dict:
         return yaml.safe_load(f) or {}
 
 
+# Real-world exports rarely use our canonical headers. First alias present
+# wins; using a non-canonical alias is reported as a flag so the mapping is
+# visible, never silent.
+COLUMN_ALIASES = {
+    "sku_id": ["sku_id", "sku", "id", "part_number", "part_no", "item_id",
+               "item_number", "product_id", "product_code"],
+    "name": ["name", "product", "product_name", "product_title", "title",
+             "item", "item_name"],
+    "raw_category": ["raw_category", "category", "product_category", "type",
+                     "department", "product_type", "subcategory", "collection"],
+    "price": ["price", "msrp", "price_usd", "list_price", "retail_price",
+              "unit_price", "rrp"],
+    "applicability": ["applicability", "fitment", "model", "models",
+                      "compatibility", "applies_to", "segment"],
+    "competitor": ["competitor", "competitor_name", "brand", "company",
+                   "retailer", "seller"],
+}
+
+
+def _norm_header(h: str) -> str:
+    return (h or "").strip().lstrip("﻿").lower().replace(" ", "_").replace("-", "_")
+
+
+def _resolve_columns(fieldnames: list[str], filename: str,
+                     flags: list[str], competitor_col: bool) -> dict[str, str]:
+    """Map canonical field -> actual column name via the alias table."""
+    normed = {_norm_header(f): f for f in fieldnames or []}
+    resolved = {}
+    for field, aliases in COLUMN_ALIASES.items():
+        if field == "competitor" and not competitor_col:
+            continue
+        for alias in aliases:
+            if alias in normed:
+                resolved[field] = normed[alias]
+                if alias != field:
+                    flags.append(f"{filename}: using column {normed[alias]!r} as {field!r}")
+                break
+    missing_required = [f for f in (["name", "competitor"] if competitor_col else ["name"])
+                        if f not in resolved]
+    if missing_required:
+        raise ValueError(
+            f"{filename}: no usable column for {missing_required} "
+            f"(accepted names e.g. {', '.join(COLUMN_ALIASES[missing_required[0]][:4])})")
+    for field, note in [("raw_category", "every SKU will need model-side bucket resolution"),
+                        ("price", "price comparison and price stats disabled")]:
+        if field not in resolved:
+            flags.append(f"{filename}: no {field} column found — {note}")
+    return resolved
+
+
+def _sniff_dialect(path: Path) -> csv.Dialect | type[csv.excel]:
+    sample = path.open(encoding="utf-8-sig").read(4096)
+    try:
+        return csv.Sniffer().sniff(sample, delimiters=",;\t|")
+    except csv.Error:
+        return csv.excel
+
+
 def _parse_price(raw: str, where: str, flags: list[str]) -> float | None:
     raw = (raw or "").strip().replace("$", "").replace(",", "")
     if not raw:
@@ -74,26 +132,29 @@ def _parse_price(raw: str, where: str, flags: list[str]) -> float | None:
 
 def _load_catalog_csv(path: Path, flags: list[str], competitor_col: bool) -> list[Sku]:
     skus: list[Sku] = []
-    with open(path, newline="") as f:
-        reader = csv.DictReader(f)
-        required = {"sku_id", "name", "raw_category", "price"}
-        if competitor_col:
-            required.add("competitor")
-        missing = required - set(reader.fieldnames or [])
-        if missing:
-            raise ValueError(f"{path.name}: missing columns {sorted(missing)}")
+    dialect = _sniff_dialect(path)
+    with open(path, newline="", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f, dialect=dialect)
+        cols = _resolve_columns(reader.fieldnames, path.name, flags, competitor_col)
+
+        def get(row: dict, field: str) -> str:
+            return (row.get(cols[field]) or "").strip() if field in cols else ""
+
         for i, row in enumerate(reader, start=2):
-            name = (row.get("name") or "").strip()
+            name = get(row, "name")
             if not name:
                 flags.append(f"{path.name} line {i}: empty name, row skipped")
                 continue
+            price = None
+            if "price" in cols:
+                price = _parse_price(get(row, "price"), f"{path.name} line {i} ({name})", flags)
             skus.append(Sku(
-                sku_id=(row.get("sku_id") or "").strip() or f"{path.stem}-{i}",
+                sku_id=get(row, "sku_id") or f"{path.stem}-{i}",
                 name=name,
-                raw_category=(row.get("raw_category") or "").strip(),
-                price=_parse_price(row.get("price", ""), f"{path.name} line {i} ({name})", flags),
-                applicability=(row.get("applicability") or "").strip() or None,
-                competitor=(row.get("competitor") or "").strip() or None if competitor_col else None,
+                raw_category=get(row, "raw_category"),
+                price=price,
+                applicability=get(row, "applicability") or None,
+                competitor=get(row, "competitor") or None if competitor_col else None,
             ))
     return skus
 

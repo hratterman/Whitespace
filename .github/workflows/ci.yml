@@ -23,6 +23,12 @@ jobs:
         run: python -m whitespace prompt examples/meridian
       - name: Smoke — public-data fixture with taxonomy override (coffee)
         run: python -m whitespace analyze examples/solstice
+      - name: Smoke — deck + one-pager render on both fixtures
+        run: |
+          cp examples/meridian/sample-report.json examples/meridian/out/report.json
+          python -m whitespace render examples/meridian
+          cp examples/solstice/sample-report.json examples/solstice/out/report.json
+          python -m whitespace render examples/solstice
       - name: Smoke — scaffold guards against empty inputs
         run: |
           python -m whitespace init /tmp/ci-scaffold --brand "CI Brand"

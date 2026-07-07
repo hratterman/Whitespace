@@ -17,20 +17,30 @@ _HEADER = """\
 # Category Whitespace Analysis — Reasoning Request
 
 You are a senior category strategist. Below you have (1) the reasoning method
-you must follow, (2) the output specification for the deliverable, and (3) a
-structured analysis object computed deterministically from the input data.
+you must follow, (2) the output specification for the narrative deliverable,
+(3) the schema for the structured judgment file, and (4) a structured
+analysis object computed deterministically from the input data.
 
-Apply the method to the analysis object and respond with the complete
-`report.md` deliverable — Markdown only, following the output specification
-exactly, starting at the title. Do not restate these instructions, do not
-wrap the report in commentary, and do not invent figures that are not in the
-analysis object (derived arithmetic and clearly-labeled judgments are fine).
+Apply the method to the analysis object and respond with TWO artifacts, in
+order:
+
+1. The complete `report.md` deliverable — Markdown, following the output
+   specification exactly, starting at the title.
+2. Then a fenced ```json block containing `report.json` per the report-spec
+   schema — the same judgments in structured form. (Save it as
+   `out/report.json` and run `python3 -m whitespace render <data-dir>` to get
+   the slide deck and executive one-pager.)
+
+Do not restate these instructions, and do not invent figures that are not in
+the analysis object (derived arithmetic and clearly-labeled judgments are
+fine).
 """
 
 
 def build_prompt(analysis: dict) -> str:
     reasoning = (METHOD_DIR / "REASONING.md").read_text()
     output_spec = (METHOD_DIR / "OUTPUT_SPEC.md").read_text()
+    report_spec = (METHOD_DIR / "REPORT_SPEC.md").read_text()
     mode = analysis["meta"]["mode"]
     return "\n\n".join([
         _HEADER,
@@ -40,8 +50,9 @@ def build_prompt(analysis: dict) -> str:
            "No buyer-behavior data; run the public-data analysis and do not "
            "fabricate behavioral figures."),
         "---\n\n## (1) Reasoning method\n\n" + reasoning,
-        "---\n\n## (2) Output specification\n\n" + output_spec,
-        "---\n\n## (3) Analysis object\n\n```json\n"
+        "---\n\n## (2) Output specification (report.md)\n\n" + output_spec,
+        "---\n\n## (3) Structured judgment schema (report.json)\n\n" + report_spec,
+        "---\n\n## (4) Analysis object\n\n```json\n"
         + json.dumps(analysis, indent=2) + "\n```",
-        "Now write report.md.",
+        "Now write report.md, then the report.json block.",
     ])

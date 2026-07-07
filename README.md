@@ -23,6 +23,24 @@ recommendation, not a dashboard of percentages.
 > buy, they buy on the internet instead of from us."*
 > — from the [demo report](examples/meridian/sample-report.md)
 
+## What you get
+
+Every run produces three deliverables from one analysis: a **slide deck**
+(self-contained HTML — keyboard navigation, live charts, print-to-PDF), the
+**strategist memo** (Markdown), and an **executive one-pager**.
+
+<p align="center">
+  <img src="assets/deck-diagnosis.png" alt="Deck slide: the diagnosis, with attach/spend/mix/channel stat tiles" width="46%">
+  <img src="assets/deck-composition.png" alt="Deck slide: the composition gap, grouped bars with benchmark headroom callout" width="46%">
+</p>
+
+The decks are rendered deterministically from the model's structured
+judgment (`report.json`) plus the computed analysis — the model never
+hand-writes presentation HTML, so every deck is polished, consistent, and
+chart-accurate. Sample decks: [Meridian](examples/meridian/sample-deck.html)
+· [Solstice](examples/solstice/sample-deck.html) (download and open, or
+print to PDF).
+
 ## Install (Claude Code)
 
 ```
@@ -40,7 +58,26 @@ Then in any project:
 The skill carries you through everything: it scaffolds the data directory,
 converts whatever catalog data you have — an export, a pasted product list,
 or nothing yet — into the input contract, asks only the questions it can't
-answer itself, then computes and writes the report. No docs required.
+answer itself, then computes, writes, and renders all three deliverables. No
+docs required.
+
+## What to point it at
+
+The tool analyzes **attach economics**: a core product people buy, plus a
+catalog of add-ons they attach to it. That premise covers more than you'd
+think:
+
+| Fit | Examples |
+|---|---|
+| **Built for** | vehicle accessories, espresso gear, bike components & accessories, camera lenses/accessories, grill & outdoor-kitchen add-ons, power-tool systems, gaming hardware peripherals, furniture modules |
+| **Adaptable** (custom `taxonomy.yaml`, same method) | any assortment-vs-competitor comparison where offerings bucket into commodity / visible personalization / utility / performance / lifestyle types |
+| **Wrong tool** | single-product brands with no add-on economics, pure services with no catalog — the skill will say so rather than force the frame |
+
+Ingestion is deliberately forgiving: real-world exports work as-is — header
+aliases (`Product`, `MSRP`, `SKU`, `Category`…), semicolon/tab delimiters,
+BOMs, missing price or category columns all degrade gracefully with flags
+instead of errors, and in Claude Code the skill converts pasted lists or
+spreadsheets for you.
 
 ## How it works
 
@@ -53,7 +90,7 @@ flowchart LR
     A["brand_catalog.csv<br/>competitor_catalog.csv<br/>merchandising.yaml<br/>buyer_behavior.yaml*"] --> B["deterministic compute<br/><i>taxonomy mapping · composition<br/>price comparables · channel math</i>"]
     B --> C["analysis.json<br/><i>every figure typed:<br/>mix % ≠ penetration %</i>"]
     C --> D["frontier reasoning<br/><i>diagnosis · benchmarks ·<br/>packs · narrative</i>"]
-    D --> E["report.md<br/><i>a strategy deck<br/>in document form</i>"]
+    D --> E["deck.html · report.md<br/>onepager.html<br/><i>three formats,<br/>one analysis</i>"]
 ```
 
 <sup>*optional — its presence flips the run from public-data mode to the full
@@ -129,7 +166,8 @@ analysis object) to paste into a chat; save the response as `report.md`.
 ## Repository layout
 
 ```
-whitespace/        deterministic compute (ingest, taxonomy, compute, assemble, prompt, CLI)
+whitespace/        deterministic compute + renderer (ingest, taxonomy, compute, assemble, prompt, render, CLI)
+whitespace/templates/  deck.html + onepager.html presentation templates
 method/            the binding reasoning method + output spec
 skills/, .claude/  the guided skill (plugin + in-repo variants)
 .claude-plugin/    plugin + marketplace manifests
