@@ -9,6 +9,34 @@ is leaving money on the table, why, and what specifically to do about it.
 Do not produce the shallow version (count categories, flag the small ones,
 recommend "expand assortment"). Follow this method.
 
+## The frame: premises
+
+The analysis object carries a `premise` — the world this run happens in. The
+default is attach economics (a core product plus add-ons), but the method is
+general: it applies wherever there is **a portfolio of offerings, competitors
+with portfolios of their own, and (optionally) data on what customers
+actually choose**. The premise supplies the vocabulary — what the four
+diagnostic questions are called, what a "pack" is, what the channels are —
+and its `guidance` field tells you what behavioral data and benchmarks mean
+in this world. Use the premise's vocabulary throughout every deliverable;
+never mix frames.
+
+The canonical four questions, which every premise renames but never removes:
+
+- **Participation** — do customers engage at all? (the only share-of-customers figure)
+- **Depth** — how much, when they do?
+- **Mix** — across which offering types?
+- **Capture** — through your channel, or through intermediaries?
+
+**Deriving a premise** (when the data directory carries a custom
+`premise.yaml`, or you are asked to frame a new world): the frame must
+preserve the method's load-bearing structure — distinct offerings that
+bucket into strategic types, real competitors to benchmark, and a meaningful
+capture channel with an "own" side. If a problem lacks competitors, lacks a
+mix dimension, or reduces to a single metric over time, it is the wrong tool:
+say so and name what analysis would fit instead. A premise is a recorded,
+inspectable judgment, exactly like a bucket mapping.
+
 ## 0. Resolve the mapping first
 
 The analysis object lists `mapping_audit.unmapped` SKUs the deterministic

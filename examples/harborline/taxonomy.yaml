@@ -1,0 +1,68 @@
+# Domain taxonomy: studio class formats. A derived premise may define its own
+# bucket keys entirely — the method reasons over strategic *types*, and this
+# world's types are its own. Keys here must match the buyer file's
+# booking-mix keys (the tool cross-checks and flags typos).
+
+buckets:
+  foundational:
+    label: "Foundational / Intro"
+    description: >
+      Entry points and basics: beginner series, foundations, intro clinics.
+      High participation, low ceiling — every studio has them.
+  strength_progression:
+    label: "Strength & Progression"
+    description: >
+      Identity-forming, goal-visible training: strength formats, lifting,
+      progressive tracks. The bucket that deepens habit and drives frequency.
+  cardio_conditioning:
+    label: "Cardio / Conditioning"
+    description: >
+      The workhorse formats: cycling, HIIT, treadmill, rowing, circuits.
+  mind_body:
+    label: "Mind-Body & Recovery"
+    description: >
+      Yoga, pilates, mobility, restorative formats.
+  skill_clinics:
+    label: "Skill & Clinics"
+    description: >
+      Technique-dense formats: lifting clinics, form assessments, skills
+      progressions.
+  community_beyond:
+    label: "Community & Beyond-the-Workout"
+    description: >
+      Events, run clubs, workshops, nutrition, social programming — habit
+      glue and halo, not volume.
+  other:
+    label: "Other"
+    description: >
+      Genuinely uncategorizable after review; only a deliberate, recorded
+      model decision places anything here.
+
+mapping:
+  exact:
+    "beginner series": foundational
+    "yoga": mind_body
+    "pilates": mind_body
+    "recovery": mind_body
+    "strength": strength_progression
+    "cycling": cardio_conditioning
+    "hiit": cardio_conditioning
+    "running": cardio_conditioning
+    "rowing": cardio_conditioning
+    "clinics": skill_clinics
+    "workshops": community_beyond
+    "events": community_beyond
+  keywords:
+    - bucket: skill_clinics
+      any: [clinic, technique, olympic, form assessment]
+    - bucket: community_beyond
+      any: [community, run club, workshop, nutrition, social, challenge]
+    - bucket: strength_progression
+      any: [strength, lifting, barbell, kettlebell, overload, progression]
+    - bucket: mind_body
+      any: [yoga, vinyasa, pilates, restorative, stretch, mobility, meditation]
+    - bucket: cardio_conditioning
+      any: [ride, cycle, hiit, tread, interval, row, circuit, conditioning,
+            cardio, engine, blast]
+    - bucket: foundational
+      any: [intro, beginner, foundation, basics, 101, first timer]

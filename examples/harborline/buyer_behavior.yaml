@@ -1,0 +1,60 @@
+# SYNTHETIC demonstration data — fictional member-app analytics.
+# Canonical field names (attach_rate, median_spend, channel_capture,
+# purchase_mix) with this premise's semantics:
+#   attach_rate    = share of members booking ANY class in a month
+#   median_spend   = median visits per active member per month (a count)
+#   channel_capture= share of bookings by channel (keys match premise.channels)
+#   purchase_mix   = booking mix by bucket (keys match taxonomy buckets)
+
+source: SYNTHETIC demonstration data (simulated member-app analytics, trailing 90 days)
+
+brand:
+  attach_rate: 0.68
+  median_spend: 4.1
+  channel_capture:
+    own_channel: 0.52
+    aggregator: 0.36
+    dropin: 0.12
+  purchase_mix:
+    cardio_conditioning: 0.44
+    mind_body: 0.27
+    foundational: 0.12
+    strength_progression: 0.09
+    community_beyond: 0.03
+    other: 0.05
+  affinity_index:
+    strength_training: 126
+    endurance_events: 118
+    nutrition: 109
+    dance: 84
+
+benchmarks:
+  - name: Ironworks Athletics
+    attach_rate: 0.74
+    median_spend: 7.6
+    channel_capture:
+      own_channel: 0.71
+      aggregator: 0.18
+      dropin: 0.11
+    purchase_mix:
+      strength_progression: 0.38
+      cardio_conditioning: 0.22
+      foundational: 0.14
+      mind_body: 0.12
+      community_beyond: 0.09
+      other: 0.05
+
+  - name: Pulse Collective
+    attach_rate: 0.66
+    median_spend: 4.4
+    channel_capture:
+      own_channel: 0.49
+      aggregator: 0.41
+      dropin: 0.10
+    purchase_mix:
+      cardio_conditioning: 0.47
+      mind_body: 0.22
+      foundational: 0.10
+      strength_progression: 0.07
+      community_beyond: 0.09
+      other: 0.05

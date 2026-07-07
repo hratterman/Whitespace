@@ -1,0 +1,123 @@
+{
+  "title": "Members Show Up. The Schedule Doesn't Take Them Anywhere.",
+  "subtitle": "Harborline Fitness · studio programming & membership analysis · full-diagnostic mode",
+  "badge": "Synthetic demonstration data",
+  "why_it_matters": "Harborline members book classes at nearly the benchmark rate — then visit 4.1 times a month against Ironworks' 7.6, and route 36% of their bookings through revenue-sharing aggregators. Frequency is retention: closing even part of a 3.5-visit gap is the difference between a member who renews and one who churns at month four.",
+
+  "diagnosis": {
+    "verdict": "A programming problem, not a demand problem.",
+    "narrative": "Participation is near benchmark — members show up. But they visit half as often as Ironworks members, stay parked in cardio comfort-zone formats, and book through aggregators that take a cut of every class. That pattern says the schedule isn't giving members anywhere to go next: no journeys, no progression, no reason to book through the studio's own app. Acquiring more members would pour new names into the same shallow habit loop.",
+    "pattern": [
+      { "question": "Participation", "sub": "members booking any class / month", "brand_display": "68%", "benchmark_display": "74% (Ironworks)", "read": "Near benchmark — members show up", "tone": "good" },
+      { "question": "Frequency", "sub": "visits per active member / month", "brand_display": "4.1", "benchmark_display": "7.6 (Ironworks)", "read": "Half the benchmark habit", "tone": "bad" },
+      { "question": "Mix", "sub": "share of bookings", "brand_display": "44%", "benchmark_display": "cardio vs 38% strength (Ironworks)", "read": "Comfort-zone heavy", "tone": "warn" },
+      { "question": "Booking capture", "sub": "own app & front desk", "brand_display": "52%", "benchmark_display": "71% (Ironworks)", "read": "36% via aggregators", "tone": "bad" }
+    ]
+  },
+
+  "composition": {
+    "headline": "The buckets that build habit are the ones members don't book",
+    "narrative": "Booking mix: 44% of Harborline bookings are cardio/conditioning and only 9% strength & progression — the bucket that carries Ironworks' 7.6 visits a month at 38% of bookings. Community programming, the habit glue, is 3% of Harborline bookings against 9%. The formats exist on the schedule; the bookings don't follow, because nothing routes members toward them.",
+    "source": "purchase_mix",
+    "entities": ["Harborline Fitness", "Ironworks Athletics", "Pulse Collective"],
+    "callout_bucket": "strength_progression"
+  },
+
+  "benchmark_note": {
+    "headline": "Pulse proves a colorful schedule isn't a strategy",
+    "narrative": "Pulse Collective runs the flashiest specialty menu in the market — aerial, pole, themed rides — and its members still book 47% cardio, visit 4.4 times a month, and leak 41% of bookings to aggregators. Offering exotic formats did not shift behavior. Ironworks shifted behavior with ordinary formats and extraordinary routing: goal-based journeys, next-class suggestions, coach check-ins. The benchmark is Ironworks' member behavior, and the mechanism is guidance, not menu breadth."
+  },
+
+  "channel": {
+    "headline": "19 points of booking capture, with margin attached",
+    "narrative": "Harborline's own app and front desk take 52% of bookings; 36% arrive through aggregator platforms that charge a revenue share on every one. Ironworks captures 71% — a 19-point gap. Aggregator members are also the loosest-held: they book single classes, never see a journey, and churn to whatever's nearby. The programs below are the capture play: journeys only exist in the studio's own app.",
+    "entities": ["Harborline Fitness", "Ironworks Athletics", "Pulse Collective"]
+  },
+
+  "storefront_critique": {
+    "headline": "A week-grid is a timetable, not a membership",
+    "bullets": [
+      "The app shows a chronological week grid filtered by location — no goal-based grouping, no 'start here' for a new member.",
+      "After a booking, nothing suggests the next class; every visit is a cold start.",
+      "Strength formats — the highest-affinity, highest-frequency bucket — are visually indistinguishable from everything else on the grid.",
+      "The free Community Run Club, the studio's best habit-builder, isn't even listed in the app; it spreads by front-desk word of mouth."
+    ]
+  },
+
+  "merchandising_benchmark": {
+    "headline": "Ironworks sells journeys; everyone else sells time slots",
+    "narrative": "Three named programs, next-step suggestions after every class, coach check-ins at weeks two and six, and an individualized-programming add-on. Pulse markets spectacle and routes nobody. The audit table is the playbook gap in one view."
+  },
+
+  "packs": {
+    "headline": "Three programs, launchable from this week's schedule",
+    "narrative": "Members over-index on strength training (126) and endurance events (118), and at-index on nutrition (109) — the appetite for progression is already in the base. Every class below is already on the schedule; each program is a routed sequence with a goal, not a new format. Dance under-indexes (84): no dance-led theming, whatever the competitors are doing.",
+    "items": [
+      { "name": "First 30 Days Path", "target": "new members · first month", "grounding": "onboarding",
+        "skus": [
+          { "name": "Intro to Studio Cycling", "price": "$20" },
+          { "name": "Foundations: Lifting Basics", "price": "$22" },
+          { "name": "Sunrise Flow 60", "price": "$24" },
+          { "name": "HIIT Circuit 45", "price": "$28" }
+        ],
+        "component_sum": "$94", "bundle_price": "$69" },
+      { "name": "Stronger in 12 Weeks", "target": "the progression-hungry member", "grounding": "affinity 126",
+        "skus": [
+          { "name": "Foundations: Lifting Basics", "price": "$22" },
+          { "name": "Kettlebell Fundamentals", "price": "$26" },
+          { "name": "Total-Body Strength 60 (weekly)", "price": "$28" },
+          { "name": "Form check-in (coach-led)", "price": "$35", "exists": false }
+        ],
+        "component_sum": "$111+", "bundle_price": "$96/mo" },
+      { "name": "Race Ready Series", "target": "the endurance-event member", "grounding": "affinity 118",
+        "skus": [
+          { "name": "Treadmill Intervals", "price": "$26" },
+          { "name": "Rowing Blast", "price": "$26" },
+          { "name": "Restorative Stretch", "price": "$22" },
+          { "name": "Saturday Community Run Club", "price": "free" }
+        ],
+        "component_sum": "$74", "bundle_price": "$59" }
+    ]
+  },
+
+  "pricing_note": {
+    "headline": "Drop-in prices are at parity; the gap is routing, not rate",
+    "narrative": "On comparable formats Harborline sits within a couple of dollars of both competitors (Ride 45 $28 vs Beat Ride 45 $28; strength formats $26–28 vs $26–32). Nothing in the price list explains a 3.5-visit frequency gap. One catalog note: the Community Run Club carries no listed price and no app listing — free is a feature, but invisible is not."
+  },
+
+  "recommendation": {
+    "now": [
+      { "action": "Launch the three programs", "detail": "Routed sequences from existing classes, bookable only in the studio's own app — the capture play and the frequency play are the same feature." },
+      { "action": "Rebuild the app around journeys", "detail": "Goal-based groupings above the week grid, a 'start here' path for new members, and a suggested next class after every booking." },
+      { "action": "List the Run Club", "detail": "Free, in the app, attached to Race Ready — the cheapest habit-builder the studio owns is currently a secret." },
+      { "action": "Make aggregator bookings convert", "detail": "Every aggregator visitor gets one in-app offer: first program session free when booked direct." }
+    ],
+    "next": [
+      { "action": "Add the coach touchpoints", "detail": "Form check-ins at weeks two and six of Stronger in 12 Weeks — the one new offering the programs need (staff time, not construction)." },
+      { "action": "Pilot individualized programming", "detail": "Quarterly-assessment add-on, following the proven Ironworks model, only after program take-rate proves demand." },
+      { "action": "Extend clinics", "detail": "A skills/clinic bucket is absent from the schedule entirely; borrow Ironworks' format once strength journeys have an audience." }
+    ]
+  },
+
+  "next_step": {
+    "headline": "One 60-day proof",
+    "narrative": "Ship First 30 Days Path to every member who joined in the last 90 days, instrumented: program take-rate, visits per member vs a holdout, and share of those bookings made in the studio's own app. In parallel, pull class-level fill rates by channel — the one dataset this analysis lacked."
+  },
+
+  "appendix": {
+    "mapping_resolutions": [
+      { "sku": "HB-18 Open Gym Block", "bucket": "foundational", "reason": "unstructured access for members building comfort — an entry-point format, not conditioning programming" }
+    ],
+    "comparability_calls": [
+      "Ride 45 vs Pulse Beat Ride 45 — confirmed comparable ($28 vs $28)",
+      "Aerial/pole formats have no Harborline counterpart — excluded from price comparison entirely",
+      "IW Progressive Overload Track is an 8-week program priced per class — compared per-session only"
+    ],
+    "data_flags": [
+      "All figures are synthetic demonstration data (simulated member-app analytics, trailing 90 days); no figure is real market data.",
+      "Saturday Community Run Club has no listed price — excluded from price comparison; flagged upstream by validation.",
+      "Presentation audit from a simulated app/storefront audit, July 2026."
+    ],
+    "figure_types_note": "Participation = share of members booking any class in a month (the only share-of-members figure). Booking mix = share of bookings, sums to 100% per studio. Schedule share = share of class formats offered (offer-side, not behavioral). Booking share = share of bookings by channel. Affinity index: 100 = population par. Frequency (median visits per active member per month) is a count, not a share."
+  }
+}

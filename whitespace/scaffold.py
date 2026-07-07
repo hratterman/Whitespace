@@ -10,6 +10,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .premise import PRESET_DIR, load_preset
+
 BRAND_CSV = "sku_id,name,raw_category,price,applicability\n"
 
 COMPETITOR_CSV = "competitor,sku_id,name,raw_category,price\n"
@@ -99,13 +101,20 @@ flow — including converting a messy product export into brand_catalog.csv.
 """
 
 
-def init_data_dir(target: str | Path, brand_name: str | None = None) -> list[str]:
+def init_data_dir(target: str | Path, brand_name: str | None = None,
+                  premise: str | None = None) -> list[str]:
     """Create the template files; refuse to overwrite anything. Returns the
-    list of files written."""
+    list of files written. `premise` names a preset (attach, replenishment,
+    service, portfolio); it is copied in full so the frame stays inspectable
+    and editable."""
     target = Path(target)
     target.mkdir(parents=True, exist_ok=True)
     name = brand_name or target.name
-    files = {
+    files = {}
+    if premise:
+        load_preset(premise)  # validate the key before copying
+        files["premise.yaml"] = (PRESET_DIR / f"{premise}.yaml").read_text()
+    files |= {
         "brand_catalog.csv": BRAND_CSV,
         "competitor_catalog.csv": COMPETITOR_CSV,
         "merchandising.yaml": MERCHANDISING.replace("YOUR BRAND NAME", name),

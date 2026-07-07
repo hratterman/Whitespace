@@ -1,0 +1,45 @@
+# SYNTHETIC demonstration data — all studios, classes, and figures fictional.
+# The presentation audit, in this premise's terms: how each studio packages,
+# guides, and personalizes its programming (keys are the tool's canonical
+# audit fields; the premise relabels them in every deliverable).
+
+brand:
+  name: Harborline Fitness
+  storefront: own booking app + front desk
+  bundles: false
+  named_packs: []
+  curation_level: none
+  curation_notes: >
+    The app shows a week-grid schedule filtered by location; classes listed
+    chronologically with no goal-based grouping, no "start here" for new
+    members, no suggested next class after a booking. Strength formats are
+    visually indistinguishable from everything else.
+  bespoke: false
+  notes: >
+    Three locations (Harbor East, Midtown, Riverside). Community Run Club is
+    free but unlisted in the app — front-desk word of mouth only.
+  source: simulated app + storefront audit, 2026-07
+
+competitors:
+  - name: Ironworks Athletics
+    bundles: true
+    named_packs: [Foundations Path, Strength Builder Track, Engine Room Series]
+    curation_level: strong
+    curation_notes: >
+      Goal-based journeys in the app ("Get Strong", "Build Engine", "First
+      90 Days"); each completed class suggests the next step on the track;
+      coach check-ins at weeks 2 and 6; challenge events tie tracks together.
+    bespoke: true
+    bespoke_notes: individualized programming add-on with quarterly assessments
+    source: simulated app + storefront audit, 2026-07
+
+  - name: Pulse Collective
+    bundles: false
+    named_packs: [Aerial Intro Pack]
+    curation_level: basic
+    curation_notes: >
+      Heavy specialty storytelling on social and in-app banners (aerial,
+      pole, themed rides), but the schedule itself is a flat chronological
+      list; no journeys, no progression guidance.
+    bespoke: false
+    source: simulated app + storefront audit, 2026-07

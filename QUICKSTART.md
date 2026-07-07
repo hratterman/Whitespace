@@ -102,8 +102,14 @@ Troubleshooting.
 Scaffold a data directory with commented fill-in templates:
 
 ```bash
-python3 -m whitespace init data/acme --brand "Acme Bikes"
+python3 -m whitespace init data/acme --brand "Acme Bikes" --premise attach
 ```
+
+`--premise` picks the frame (`attach`, `replenishment`, `service`,
+`portfolio`) and copies it in as an editable `premise.yaml`; omit it for
+attach economics. For a world none of the presets fit, the Claude Code skill
+derives a custom premise for you — see `examples/harborline` for what one
+looks like.
 
 That writes header-only CSVs, a commented `merchandising.yaml`, a
 `buyer_behavior.template.yaml` (inert until you fill it in and rename it),

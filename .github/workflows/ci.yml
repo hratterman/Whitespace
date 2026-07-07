@@ -29,6 +29,9 @@ jobs:
           python -m whitespace render examples/meridian
           cp examples/solstice/sample-report.json examples/solstice/out/report.json
           python -m whitespace render examples/solstice
+          python -m whitespace analyze examples/harborline
+          cp examples/harborline/sample-report.json examples/harborline/out/report.json
+          python -m whitespace render examples/harborline
       - name: Smoke — scaffold guards against empty inputs
         run: |
           python -m whitespace init /tmp/ci-scaffold --brand "CI Brand"

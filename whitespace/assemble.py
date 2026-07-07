@@ -6,11 +6,13 @@ from datetime import date
 
 from . import __version__, compute
 from .ingest import Inputs
+from .premise import load_premise
 from .taxonomy import apply_taxonomy, load_taxonomy
 
 
 def build_analysis(inputs: Inputs, data_dir: str) -> dict:
     taxonomy = load_taxonomy(data_dir)
+    premise = load_premise(data_dir)
     all_skus = inputs.brand_catalog + [s for skus in inputs.competitor_catalogs.values()
                                        for s in skus]
     decisions = apply_taxonomy(all_skus, taxonomy)
@@ -25,6 +27,7 @@ def build_analysis(inputs: Inputs, data_dir: str) -> dict:
             "tool_version": __version__,
             "taxonomy_file": taxonomy["_path"],
         },
+        "premise": premise,
         "buckets": {k: v["label"] for k, v in taxonomy["buckets"].items()},
         "catalog_composition": {
             "brand": compute.catalog_composition(inputs.brand_catalog),

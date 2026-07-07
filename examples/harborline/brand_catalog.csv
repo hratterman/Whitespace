@@ -1,0 +1,19 @@
+sku_id,name,raw_category,price,applicability
+HB-01,Sunrise Flow 60,Yoga,24,All studios
+HB-02,Power Vinyasa,Yoga,26,Harbor East / Midtown
+HB-03,Mat Pilates,Pilates,26,All studios
+HB-04,Intro to Studio Cycling,Beginner Series,20,All studios
+HB-05,Foundations: Lifting Basics,Beginner Series,22,Harbor East
+HB-06,Ride 45,Cycling,28,All studios
+HB-07,Ride 60,Cycling,30,Harbor East / Midtown
+HB-08,HIIT Circuit 45,HIIT,28,All studios
+HB-09,Treadmill Intervals,Running,26,Midtown
+HB-10,Rowing Blast,Rowing,26,Harbor East
+HB-11,Total-Body Strength 60,Strength,28,All studios
+HB-12,Kettlebell Fundamentals,Strength,26,Harbor East
+HB-13,Restorative Stretch,Recovery,22,All studios
+HB-14,Core Express 30,HIIT,18,All studios
+HB-15,Prenatal Yoga,Yoga,24,Midtown
+HB-16,Saturday Community Run Club,Events,,All studios
+HB-17,Nutrition Workshop (Monthly),Workshops,35,Harbor East
+HB-18,Open Gym Block,Open Access,15,Harbor East

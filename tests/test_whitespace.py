@@ -8,6 +8,7 @@ from pathlib import Path
 from whitespace import compute
 from whitespace.assemble import build_analysis
 from whitespace.ingest import Sku, _check_shares, load_inputs
+from whitespace.premise import load_premise, load_preset
 from whitespace.render import render, validate_report
 from whitespace.scaffold import init_data_dir
 from whitespace.taxonomy import apply_taxonomy, load_taxonomy
@@ -253,6 +254,73 @@ class TestRender(unittest.TestCase):
                             for p in validate_report(report, analysis)))
 
 
+class TestPremise(unittest.TestCase):
+    def test_presets_all_load_and_validate(self):
+        for key in ("attach", "replenishment", "service", "portfolio"):
+            premise = load_preset(key)
+            self.assertEqual(premise["key"], key)
+            self.assertIn("own_channel", premise["channels"])
+
+    def test_default_is_attach(self):
+        self.assertEqual(load_premise(None)["key"], "attach")
+
+    def test_unknown_preset_names_available(self):
+        with self.assertRaisesRegex(ValueError, "available:.*attach"):
+            load_preset("nope")
+
+    def test_local_preset_reference_with_override(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "premise.yaml").write_text(
+                "preset: service\neyebrow: Custom eyebrow\n")
+            premise = load_premise(tmp)
+            self.assertEqual(premise["key"], "service")
+            self.assertEqual(premise["eyebrow"], "Custom eyebrow")
+
+    def test_invalid_custom_premise_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "premise.yaml").write_text(
+                "key: x\nname: X\ndescription: d\nquestions: {}\nchannels: {web: W}\n")
+            with self.assertRaisesRegex(ValueError, "own_channel"):
+                load_premise(tmp)
+
+
+class TestHarborlineFixture(unittest.TestCase):
+    """Derived-premise fixture: custom bucket keys, custom channels."""
+
+    def setUp(self):
+        self.example = REPO / "examples" / "harborline"
+        self.analysis = build_analysis(load_inputs(self.example), str(self.example))
+
+    def test_custom_premise_travels_with_analysis(self):
+        premise = self.analysis["premise"]
+        self.assertEqual(premise["key"], "studio-schedule")
+        self.assertEqual(premise["questions"]["depth"]["label"], "Frequency")
+
+    def test_domain_bucket_keys_work_end_to_end(self):
+        buckets = self.analysis["catalog_composition"]["brand"]["buckets"]
+        self.assertIn("strength_progression", buckets)
+        mix = self.analysis["diagnostic"]["purchase_mix"]["buckets"]
+        self.assertIn("mind_body", mix)
+        # typo cross-check runs against the custom keys, so no flags fire
+        self.assertFalse(any("check for typos" in f
+                             for f in self.analysis["data_flags"]))
+
+    def test_custom_channels_flow_through(self):
+        ch = self.analysis["diagnostic"]["channel"]
+        self.assertIn("aggregator", ch["brand_channels"])
+        self.assertAlmostEqual(ch["benchmark_gaps"][0]["capture_gap_points"], 0.19)
+
+    def test_report_renders_with_premise_vocabulary(self):
+        report = json.loads((self.example / "sample-report.json").read_text())
+        self.assertEqual(validate_report(report, self.analysis), [])
+        with tempfile.TemporaryDirectory() as tmp:
+            render(self.analysis, report, Path(tmp))
+            deck = (Path(tmp) / "deck.html").read_text()
+            for label in ("Aggregator platforms", "Booking capture & aggregator leakage",
+                          "Programs from the existing schedule", "Program first. Build later."):
+                self.assertIn(label, deck)
+
+
 class TestScaffold(unittest.TestCase):
     def test_init_writes_templates_without_activating_full_mode(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -270,6 +338,12 @@ class TestScaffold(unittest.TestCase):
             (target / "brand_catalog.csv").write_text("user data")
             self.assertEqual(init_data_dir(target), [])
             self.assertEqual((target / "brand_catalog.csv").read_text(), "user data")
+
+    def test_init_with_premise_copies_preset(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            written = init_data_dir(Path(tmp) / "x", "X", premise="replenishment")
+            self.assertIn("premise.yaml", written)
+            self.assertEqual(load_premise(Path(tmp) / "x")["key"], "replenishment")
 
     def test_empty_scaffold_errors_helpfully(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -1,0 +1,28 @@
+competitor,sku_id,name,raw_category,price
+Ironworks Athletics,IW-01,Barbell Club 101,Beginner Series,24
+Ironworks Athletics,IW-02,Strength 60,Strength,30
+Ironworks Athletics,IW-03,Progressive Overload Track (8-week),Strength,32
+Ironworks Athletics,IW-04,Kettlebell Strong,Strength,28
+Ironworks Athletics,IW-05,Olympic Lifting Clinic,Clinics,40
+Ironworks Athletics,IW-06,Form Assessment Session,Clinics,35
+Ironworks Athletics,IW-07,Conditioning 45,HIIT,28
+Ironworks Athletics,IW-08,Engine Builder (Row + Ski),Rowing,28
+Ironworks Athletics,IW-09,Yoga for Athletes,Yoga,26
+Ironworks Athletics,IW-10,Mobility & Recovery 45,Recovery,24
+Ironworks Athletics,IW-11,Team Saturday WOD,Events,20
+Ironworks Athletics,IW-12,6-Week Challenge Kickoff,Events,45
+Ironworks Athletics,IW-13,Nutrition Basics Workshop,Workshops,35
+Pulse Collective,PC-01,Beat Ride 45,Cycling,28
+Pulse Collective,PC-02,Beat Ride 60,Cycling,30
+Pulse Collective,PC-03,Dance Cardio Party,HIIT,26
+Pulse Collective,PC-04,Trampoline HIIT,HIIT,29
+Pulse Collective,PC-05,Aerial Silks Intro,Beginner Series,34
+Pulse Collective,PC-06,Aerial Flow,Yoga,36
+Pulse Collective,PC-07,Hot Power Yoga,Yoga,28
+Pulse Collective,PC-08,Sculpt & Tone,Strength,26
+Pulse Collective,PC-09,Boxing Bootcamp,HIIT,30
+Pulse Collective,PC-10,Glow Ride (Themed),Cycling,32
+Pulse Collective,PC-11,Pole Fitness Level 1,Beginner Series,36
+Pulse Collective,PC-12,Breathwork & Sound Bath,Recovery,30
+Pulse Collective,PC-13,Runway Dance Series,Events,38
+Pulse Collective,PC-14,Stretch Lab 30,Recovery,20
