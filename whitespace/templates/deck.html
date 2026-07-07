@@ -130,8 +130,11 @@
 <script>
 const {analysis:A, report:R} = JSON.parse(document.getElementById('payload').textContent);
 const S = ['#2a78d6','#1baf7a','#eda100','#008300'];
-const CH = {own_channel:['Own channel','#2a78d6'], internet:['Internet','#e34948'],
-            aftermarket_store:['Aftermarket','#eda100'], other:['Other','#8a8781']};
+const P = A.premise||{}, PD = P.deck||{}, PC = P.captions||{};
+const CH_COLORS = ['#2a78d6','#e34948','#eda100','#8a8781'];
+const CH = Object.entries(P.channels||{own_channel:'Own channel',internet:'Internet',
+            aftermarket_store:'Aftermarket',other:'Other'})
+  .slice(0,4).reduce((m,[k,label],i)=>(m[k]=[label,CH_COLORS[i]],m),{});
 const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const el = h => {const d=document.createElement('div');d.innerHTML=h;return d.firstElementChild;};
 const slides = [];
@@ -143,7 +146,7 @@ function slide(eyebrow, inner){
 }
 
 /* ---------- 1 · title ---------- */
-slide('Category whitespace & merchandising analysis', `
+slide(P.eyebrow||'Category whitespace & merchandising analysis', `
   <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
     <h1>${esc(R.title)}</h1>
     <div class="sub">${esc(R.subtitle||'')}</div>
@@ -199,8 +202,8 @@ slide('Category whitespace & merchandising analysis', `
     <div class="chartwrap">
       <div class="legend">${c.entities.map((e,i)=>`<span><span class="sw" style="background:${S[i]}"></span>${esc(e)}</span>`).join('')}</div>
       ${rows}
-      <div class="caption">${isMix?'Purchase mix — share of each brand’s accessory purchases; sums to 100% per brand.'
-        :'Catalog share — share of SKUs offered (offer-side, not behavioral).'} Dashed outline marks benchmark headroom.</div>
+      <div class="caption">${isMix?(PC.mix||'Purchase mix — share of purchases; sums to 100% per brand.')
+        :(PC.offer_share||'Catalog share — share of SKUs offered (offer-side, not behavioral).')} Dashed outline marks benchmark headroom.</div>
     </div>`);
 }
 
@@ -218,14 +221,14 @@ if (R.channel && A.diagnostic?.channel){
       return `<div class="seg${col==='#eda100'?' lowc':''}" style="flex:${v};background:${col}">${v>=0.12?(v*100).toFixed(0)+'%':''}</div>`;
     }).join('')}</div></div>`;
   const benches = (ch.benchmark_gaps||[]).filter(g=>R.channel.entities.includes(g.benchmark));
-  slide('Channel leakage & recapture', `
+  slide(PD.capture_eyebrow||'Channel leakage & recapture', `
     <h2>${esc(R.channel.headline)}</h2>
     <p class="narr sm">${esc(R.channel.narrative||'')}</p>
     <div class="chartwrap">
       <div class="legend">${Object.values(CH).map(([nm,col])=>`<span><span class="sw" style="background:${col}"></span>${nm}</span>`).join('')}</div>
       ${rowFor(brandName, ch.brand_channels)}
       ${benches.map(g=>rowFor(g.benchmark, g.benchmark_channels||{own_channel:g.benchmark_own_channel,other:1-g.benchmark_own_channel})).join('')}
-      <div class="caption">Channel share — share of accessory purchases by channel; sums to 100% per brand.</div>
+      <div class="caption">${PC.capture||'Channel share — share of purchases by channel; sums to 100% per brand.'}</div>
     </div>`);
 }
 
@@ -238,10 +241,10 @@ if (R.storefront_critique) slide('What the buyer sees today', `
 if (R.merchandising_benchmark && A.merchandising){
   const m = A.merchandising, all=[{...m.brand,_brand:true},...(m.competitors||[])];
   const tick = v => v?'<span class="yes">✓</span>':'<span class="no">—</span>';
-  slide('How the leaders merchandise', `
+  slide(PD.presentation_eyebrow||'How the leaders merchandise', `
     <h2>${esc(R.merchandising_benchmark.headline)}</h2>
     <p class="narr">${esc(R.merchandising_benchmark.narrative||'')}</p>
-    <table><tr><th></th><th>Bundles</th><th>Named packs</th><th>Curation</th><th>Bespoke</th></tr>
+    <table><tr><th></th><th>${esc((P.audit_labels||{}).bundles||'Bundles')}</th><th>${esc((P.audit_labels||{}).named_packs||'Named packs')}</th><th>${esc((P.audit_labels||{}).curation||'Curation')}</th><th>${esc((P.audit_labels||{}).bespoke||'Bespoke')}</th></tr>
     ${all.map(x=>`<tr${x._brand?' class="hl"':''}><td>${esc(x.name)}</td><td>${tick(x.bundles)}</td>
       <td>${(x.named_packs||[]).length? esc((x.named_packs||[]).join(', ')):'<span class="no">—</span>'}</td>
       <td>${esc(x.curation_level||'none')}</td><td>${tick(x.bespoke)}</td></tr>`).join('')}
@@ -249,7 +252,7 @@ if (R.merchandising_benchmark && A.merchandising){
 }
 
 /* ---------- 8 · packs ---------- */
-if (R.packs?.items?.length) slide('Packs from the existing catalog', `
+if (R.packs?.items?.length) slide(PD.packs_eyebrow||'Packs from the existing catalog', `
   <h2>${esc(R.packs.headline)}</h2>
   <p class="narr">${esc(R.packs.narrative||'')}</p>
   <div class="packs">${R.packs.items.map(p=>`<div class="pack">
@@ -269,9 +272,9 @@ if (R.pricing_note) slide('Pricing & product quality', `
     ${(items||[]).map((r,i)=>`<div class="rec"><div class="n">${i+1}</div>
       <div><b>${esc(r.action)}</b><p>${esc(r.detail||'')}</p></div></div>`).join('')}</div>`;
   slide('The recommendation, sequenced', `
-    <h2>Merchandise first. Build later.</h2>
-    <div class="recs">${col(R.recommendation.now,'now','Now — today’s catalog')}
-                       ${col(R.recommendation.next,'next','Next — new capability')}</div>`);
+    <h2>${esc(PD.recommendation_headline||'Merchandise first. Build later.')}</h2>
+    <div class="recs">${col(R.recommendation.now,'now',esc(PD.now_label||'Now — today’s catalog'))}
+                       ${col(R.recommendation.next,'next',esc(PD.next_label||'Next — new capability'))}</div>`);
 }
 
 /* ---------- 11 · next step ---------- */

@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: Guided category whitespace & merchandising analysis. Use when the user wants to analyze a brand's accessory/add-on assortment vs competitors, mentions whitespace, attach rate, assortment gaps, or merchandising strategy, or shows up with product catalog data — even messy data. Walks from zero to a strategist-grade report; no setup knowledge required.
+description: Guided competitive whitespace analysis for any portfolio-vs-competitors problem — product add-ons, consumables, services & coverage, class schedules, content libraries. Use when the user wants to find where they're leaving value on the table versus competitors, mentions whitespace, assortment, attach, or merchandising gaps, or shows up with catalog/portfolio data — even messy data. Delivers a slide deck, strategist memo, and executive one-pager; no setup knowledge required.
 ---
 
 <!-- Plugin variant. Keep the flow in sync with .claude/skills/whitespace/SKILL.md (repo-local variant); only the path/tool references differ. -->
@@ -24,17 +24,32 @@ Requires `python3` with `pyyaml` — check once with `python3 -c "import yaml"`
 and `pip install pyyaml` if missing. Write all data and outputs under the
 user's project (e.g. `whitespace/<brand>/`), never into the plugin directory.
 
-## Fit — what to point this at
+## Fit — the premise system
 
-Best fit: any brand with a **core product plus an attach/add-on catalog** —
-vehicles, espresso machines, bikes, cameras, grills, power tools, gaming
-hardware, furniture. The premise generalizes: if the user's domain isn't
-automotive, copy the plugin's `taxonomy.yaml` into the data dir and re-label
-buckets/keywords for their domain (keep the bucket *keys*; the method reasons
-over the types — commodity vs visible personalization vs utility vs
-performance vs lifestyle). If the premise genuinely doesn't fit — a
-single-product brand with no add-on economics, a pure service — say so
-honestly and suggest what analysis would fit, rather than forcing the frame.
+The method runs wherever there is **a portfolio of offerings, competitors
+with portfolios of their own, and (optionally) data on what customers
+actually choose**. The frame for a given world is a *premise*
+(`premise.yaml` in the data dir). Resolve it early:
+
+1. **Preset match.** `${CLAUDE_PLUGIN_ROOT}/premises/` ships four:
+   `attach` (default — core product + add-ons), `replenishment` (consumables
+   & install base), `service` (warranties/coverage/care), `portfolio`
+   (generic). Copy one in via `init --premise <key>` when it fits.
+2. **Derive a custom premise** when the user's world has its own vocabulary
+   (class schedules, content libraries, practice areas…). Write
+   `premise.yaml` yourself — name the four questions (participation / depth /
+   mix / capture) in their world's words, the entity/pack nouns, the channel
+   labels, and a `guidance` note — using a preset as the structural template.
+   Show the user the frame in two or three sentences and confirm before
+   proceeding. Pair it with a domain `taxonomy.yaml` (keep the bucket keys;
+   re-label and re-keyword).
+3. **Wrong tool.** No competitors to benchmark, no mix dimension, or a
+   single-metric-over-time problem: say so honestly and name what analysis
+   would fit instead. Never force the frame.
+
+Buyer-behavior data always uses the canonical field names (`attach_rate`,
+`median_spend`, `channel_capture` with an `own_channel` key, `purchase_mix`)
+— the premise relabels them everywhere the user sees them.
 
 ## Step 1 — meet the user where they are
 
@@ -55,10 +70,13 @@ own brand whenever they're ready.
 
 ## Onboard — build the data directory conversationally
 
-1. One AskUserQuestion round: the brand name; what they have for its catalog
-   (a storefront export / something they can paste / nothing yet); which 2–3
+1. One AskUserQuestion round: the brand/organization name; what world this
+   is (to pick or derive the premise); what they have for the portfolio data
+   (an export / something they can paste / nothing yet); which 2–3
    competitors matter.
-2. Scaffold: `PYTHONPATH="${CLAUDE_PLUGIN_ROOT}" python3 -m whitespace init whitespace/<brand-slug> --brand "<Brand Name>"`
+2. Scaffold: `PYTHONPATH="${CLAUDE_PLUGIN_ROOT}" python3 -m whitespace init whitespace/<brand-slug> --brand "<Brand Name>" --premise <key>`
+   (omit `--premise` for attach; for a derived premise, write `premise.yaml` into the scaffolded dir yourself)
+   ``
 3. **Brand catalog** — convert whatever they give you (CSV/XLSX export,
    pasted product list, a document) into `brand_catalog.csv`. Rules: keep the
    storefront's own category names as `raw_category` (the tool's taxonomy

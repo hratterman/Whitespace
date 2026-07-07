@@ -61,17 +61,33 @@ or nothing yet — into the input contract, asks only the questions it can't
 answer itself, then computes, writes, and renders all three deliverables. No
 docs required.
 
-## What to point it at
+## What to point it at: the premise system
 
-The tool analyzes **attach economics**: a core product people buy, plus a
-catalog of add-ons they attach to it. That premise covers more than you'd
-think:
+The method runs wherever three things exist: **a portfolio of offerings,
+competitors with portfolios of their own, and (optionally) data on what
+customers actually choose**. The frame for a given world is a *premise* — a
+small, inspectable YAML file that names the four diagnostic questions
+(participation / depth / mix / capture) in that world's vocabulary. The
+method never changes; the frame does.
 
-| Fit | Examples |
-|---|---|
-| **Built for** | vehicle accessories, espresso gear, bike components & accessories, camera lenses/accessories, grill & outdoor-kitchen add-ons, power-tool systems, gaming hardware peripherals, furniture modules |
-| **Adaptable** (custom `taxonomy.yaml`, same method) | any assortment-vs-competitor comparison where offerings bucket into commodity / visible personalization / utility / performance / lifestyle types |
-| **Wrong tool** | single-product brands with no add-on economics, pure services with no catalog — the skill will say so rather than force the frame |
+| Premise | World | Example |
+|---|---|---|
+| `attach` (default) | core product + add-ons | vehicle accessories, espresso gear, camera lenses, power-tool systems |
+| `replenishment` | install base + consumables | printers/ink, razors/blades, filtration, parts |
+| `service` | purchase + coverage/care | warranties, protection plans, install & setup |
+| `portfolio` | generic portfolio-vs-competitors | content libraries, practice areas, feature sets |
+| **derived** | anything else with the three ingredients | the [Harborline fixture](examples/harborline): a fitness studio's class schedule, framed as participation / frequency / booking mix / aggregator capture |
+
+In Claude Code you never pick one by hand: describe your situation and the
+skill matches a preset or **derives a custom premise for your world**, shows
+you the frame, and records it in the data directory like any other judgment.
+And when a problem genuinely lacks the ingredients — no competitors, no mix
+dimension, a single metric over time — the skill says it's the wrong tool
+instead of forcing the frame.
+
+<p align="center">
+  <img src="assets/deck-programs.png" alt="Deck slide from the fitness fixture: three membership programs priced from the existing class schedule — the attach-economics pack slide, re-framed by a derived premise" width="72%">
+</p>
 
 Ingestion is deliberately forgiving: real-world exports work as-is — header
 aliases (`Product`, `MSRP`, `SKU`, `Category`…), semicolon/tab delimiters,
@@ -109,6 +125,7 @@ shelf presence; merchandise-first sequencing) and
 |---|---|---|---|
 | [`examples/meridian`](examples/meridian) | pickup trucks | full-diagnostic | the complete method: demand-vs-merchandising diagnosis, channel recapture, affinity-grounded packs → [sample report](examples/meridian/sample-report.md) |
 | [`examples/solstice`](examples/solstice) | espresso gear | public-data | domain portability via a local `taxonomy.yaml` override, and the honest no-behavioral-data voice → [sample report](examples/solstice/sample-report.md) |
+| [`examples/harborline`](examples/harborline) | fitness studios | full-diagnostic, **derived premise** | the whole frame re-derived — custom questions, buckets, and channels — with the method intact → [sample report](examples/harborline/sample-report.md) |
 
 Both fixtures are fully synthetic, built to exercise every branch of the
 method — including traps the model must catch (false price comparables, a
@@ -126,6 +143,7 @@ One directory per analysis (`python3 -m whitespace init <dir>` scaffolds it):
 | `merchandising.yaml` | yes | storefront-behavior audit: bundles, named packs, curation, bespoke — with a `source` per entry |
 | `buyer_behavior.yaml` | no | attach rate, median spend, channel capture, purchase mix, affinity indices — unlocks full-diagnostic mode |
 | `taxonomy.yaml` | no | domain override for the category-to-bucket mapping |
+| `premise.yaml` | no | the frame: a preset reference (`preset: replenishment`) or a fully custom premise |
 
 Data is *supplied*, never scraped: competitor assortment comes from you, or
 from a model-assisted storefront audit session that hands structured rows to
@@ -168,6 +186,7 @@ analysis object) to paste into a chat; save the response as `report.md`.
 ```
 whitespace/        deterministic compute + renderer (ingest, taxonomy, compute, assemble, prompt, render, CLI)
 whitespace/templates/  deck.html + onepager.html presentation templates
+premises/          the frame presets (attach · replenishment · service · portfolio)
 method/            the binding reasoning method + output spec
 skills/, .claude/  the guided skill (plugin + in-repo variants)
 .claude-plugin/    plugin + marketplace manifests

@@ -1,0 +1,67 @@
+# Custom premise, derived for this world (boutique fitness studios).
+# This is what the skill produces when a user's problem doesn't match a
+# preset: the same four canonical questions — participation / depth / mix /
+# capture — named in the world's own vocabulary. The frame is a recorded,
+# inspectable judgment, exactly like the bucket taxonomy beside it.
+
+key: studio-schedule
+name: Studio programming whitespace
+description: >
+  A class schedule competing against rival studios' schedules, with member
+  booking data on what members actually attend.
+entity_noun: class format
+catalog_noun: schedule
+pack_noun: program
+eyebrow: Studio programming & membership analysis
+
+questions:
+  participation:
+    label: Participation
+    question: do members book any class at all in a month?
+    canonical_field: attach_rate
+  depth:
+    label: Frequency
+    question: how many visits per active member per month?
+    canonical_field: median_spend
+  mix:
+    label: Mix
+    question: which class types do they actually book?
+  capture:
+    label: Booking capture
+    question: through the studio's own app, or through aggregators?
+
+channels:
+  own_channel: Own app & front desk
+  aggregator: Aggregator platforms
+  dropin: Walk-in & other
+
+captions:
+  mix: Booking mix — share of each studio's class bookings; sums to 100% per studio.
+  offer_share: Schedule share — share of class formats offered (offer-side, not behavioral).
+  capture: Booking share — share of bookings by channel; sums to 100% per studio.
+
+audit_labels:
+  bundles: Bundled offers
+  named_packs: Named programs
+  curation: Member guidance
+  bespoke: Individualized programming
+
+deck:
+  capture_eyebrow: Booking capture & aggregator leakage
+  presentation_eyebrow: How the leaders program & guide
+  packs_eyebrow: Programs from the existing schedule
+  recommendation_headline: Program first. Build later.
+  now_label: Now — today's schedule
+  next_label: Next — new capability
+
+guidance: >
+  Behavioral data means member-app analytics: share of members booking any
+  class in a month (participation — the only share-of-members figure),
+  median visits per active member per month (depth), booking mix by class
+  type (sums to 100% per studio), and booking channel split. A "program" is
+  a named, goal-based sequence assembled from classes already on the
+  schedule — the analog of a pack. The behavior-shifting benchmark is a
+  studio whose MEMBERS demonstrably book the under-developed class types;
+  a big specialty menu with basic-cardio bookings is presence, not behavior.
+  Aggregator bookings carry a revenue-share cost, so capture is a margin
+  question as well as a relationship question.

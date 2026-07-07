@@ -39,7 +39,8 @@ def _analyze(data_dir: str, out_dir: Path) -> dict:
     out_path.write_text(json.dumps(analysis, indent=2) + "\n")
 
     comp = analysis["catalog_composition"]
-    print(f"brand: {analysis['meta']['brand']}  mode: {analysis['meta']['mode']}")
+    print(f"brand: {analysis['meta']['brand']}  mode: {analysis['meta']['mode']}  "
+          f"premise: {analysis['premise']['name']}")
     print(f"brand SKUs: {comp['brand']['total_skus']}  "
           f"competitors: {', '.join(comp['competitors']) or 'none'}")
     unmapped = analysis["mapping_audit"]["unmapped"]
@@ -69,6 +70,8 @@ def main(argv: list[str] | None = None) -> int:
     p_init = sub.add_parser("init")
     p_init.add_argument("data_dir", help="directory to scaffold")
     p_init.add_argument("--brand", default=None, help="brand name for the templates")
+    p_init.add_argument("--premise", default=None,
+                        help="premise preset to copy in (attach, replenishment, service, portfolio)")
     p_render = sub.add_parser("render")
     p_render.add_argument("data_dir", help="directory whose out/ holds analysis.json + report.json")
     p_render.add_argument("--out", default=None,
@@ -92,7 +95,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"wrote {w}")
         return 0
     if args.command == "init":
-        written = init_data_dir(args.data_dir, args.brand)
+        written = init_data_dir(args.data_dir, args.brand, args.premise)
         if written:
             print(f"scaffolded {args.data_dir}/: {', '.join(written)}")
             print(f"\nFill in the templates (see {args.data_dir}/README.md), then run:"

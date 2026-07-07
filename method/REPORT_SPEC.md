@@ -10,6 +10,10 @@ chart-accurate without the model hand-writing HTML.
 
 Rules of the file:
 
+- Use the premise's vocabulary everywhere (`analysis.premise`): its question
+  labels in `diagnosis.pattern`, its pack noun in pack copy, its channel
+  language in the capture narrative. The renderer pulls section labels and
+  captions from the premise automatically — your prose must match them.
 - Prose fields hold finished, presentation-ready sentences — the same
   editorial standard as `report.md`, not notes.
 - Numbers quoted in prose must come from `analysis.json` or be clearly

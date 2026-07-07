@@ -1,0 +1,65 @@
+# Premise: attach economics (the default frame).
+# A premise defines the WORLD the whitespace method runs in — the vocabulary
+# for the four diagnostic questions, the channel labels, and the presentation
+# language. The method itself (composition over concentration, behavior over
+# presence, use-what-you-have-first) never changes; only the frame does.
+# Copy a preset into your data directory as premise.yaml to inspect or adapt
+# it, or write {preset: <key>} to reference one unchanged.
+
+key: attach
+name: Attach economics
+description: >
+  A core product people buy, plus a catalog of add-ons they attach to it.
+entity_noun: SKU
+catalog_noun: catalog
+pack_noun: pack
+eyebrow: Category whitespace & merchandising analysis
+
+questions:
+  participation:
+    label: Attach
+    question: do customers buy any add-on at all?
+    canonical_field: attach_rate
+  depth:
+    label: Spend
+    question: how much, when they do? (median spend per buyer)
+    canonical_field: median_spend
+  mix:
+    label: Mix
+    question: what do they buy? (composition of purchases by bucket)
+  capture:
+    label: Channel
+    question: where do they buy it? (own channel vs leakage)
+
+channels:
+  own_channel: Own channel
+  internet: Internet
+  aftermarket_store: Aftermarket
+  other: Other
+
+captions:
+  mix: Purchase mix — share of each brand's accessory purchases; sums to 100% per brand.
+  offer_share: Catalog share — share of SKUs offered (offer-side, not behavioral).
+  capture: Channel share — share of accessory purchases by channel; sums to 100% per brand.
+
+audit_labels:
+  bundles: Bundles
+  named_packs: Named packs
+  curation: Curation
+  bespoke: Bespoke
+
+deck:
+  capture_eyebrow: Channel leakage & recapture
+  presentation_eyebrow: How the leaders merchandise
+  packs_eyebrow: Packs from the existing catalog
+  recommendation_headline: Merchandise first. Build later.
+  now_label: Now — today's catalog
+  next_label: Next — new capability
+
+guidance: >
+  Behavioral data means buyer-survey or transaction figures: attach rate,
+  median accessory spend per buyer, purchase mix, channel capture. A pack is
+  a bundled offer of existing SKUs, named by occasion or identity. The
+  behavior-shifting benchmark is a competitor whose BUYERS demonstrably skew
+  toward personalization/utility — never merely a competitor that stocks
+  those categories.

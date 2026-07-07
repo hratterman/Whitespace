@@ -1,0 +1,66 @@
+# Premise: consumables & replenishment economics.
+# Printers/ink, razors/blades, espresso machines/pods, filtration, parts.
+# The defining problem is usually capture: the install base keeps buying, but
+# through third parties and compatibles rather than the brand's own channel.
+
+key: replenishment
+name: Consumables & replenishment economics
+description: >
+  A device or platform with an install base, plus the consumables and
+  replacement items that base keeps buying for its life.
+entity_noun: consumable SKU
+catalog_noun: consumables catalog
+pack_noun: replenishment plan
+eyebrow: Replenishment whitespace & capture analysis
+
+questions:
+  participation:
+    label: Active base
+    question: what share of the install base buys any consumable at all?
+    canonical_field: attach_rate
+  depth:
+    label: Annual spend
+    question: how much per active device per year?
+    canonical_field: median_spend
+  mix:
+    label: Mix
+    question: what do they buy — own-brand, compatible, or third-party lines?
+  capture:
+    label: Capture
+    question: through whom — own channel vs marketplaces vs third parties?
+
+channels:
+  own_channel: Own channel
+  internet: Marketplaces
+  aftermarket_store: Third-party retail
+  other: Other
+
+captions:
+  mix: Purchase mix — share of the base's consumables purchases; sums to 100% per brand.
+  offer_share: Catalog share — share of consumable SKUs offered (offer-side, not behavioral).
+  capture: Capture share — share of consumables purchases by channel; sums to 100% per brand.
+
+audit_labels:
+  bundles: Bundles
+  named_packs: Subscription / auto-ship plans
+  curation: Reorder guidance
+  bespoke: Tailored plans
+
+deck:
+  capture_eyebrow: Leakage & the replenishment annuity
+  presentation_eyebrow: How the leaders lock in replenishment
+  packs_eyebrow: Plans from the existing catalog
+  recommendation_headline: Capture first. Extend later.
+  now_label: Now — today's catalog
+  next_label: Next — new capability
+
+guidance: >
+  Behavioral data means install-base figures: share of registered/active
+  devices purchasing consumables, annual consumables revenue per active
+  device, mix across consumable lines, and capture by channel. A pack is a
+  replenishment plan (subscription, auto-ship, bundle) built from existing
+  SKUs. The behavior-shifting benchmark is a competitor whose install base
+  demonstrably replenishes through the brand's own channel — subscription
+  attach is the observable proxy in public mode. Leakage to compatibles is a
+  product/price question and must be separated from leakage of OWN-brand
+  items bought elsewhere, which is a merchandising/channel question.

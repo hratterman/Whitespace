@@ -35,14 +35,16 @@ def load_taxonomy(data_dir: str | Path | None = None) -> dict:
     return tax
 
 
-def _norm(text: str) -> str:
-    return re.sub(r"[^a-z0-9 ]+", " ", text.lower()).strip()
+def _norm(text) -> str:
+    # YAML happily yields ints for keywords like `101`; coerce everything.
+    return re.sub(r"[^a-z0-9 ]+", " ", str(text).lower()).strip()
 
 
 def _match_keywords(text: str, rules: list[dict]) -> str | None:
     words = f" {_norm(text)} "
     for rule in rules:
         for kw in rule.get("any", []):
+            kw = str(kw)
             if f" {_norm(kw)} " in words or (len(kw) > 3 and _norm(kw) in words):
                 return rule["bucket"]
     return None

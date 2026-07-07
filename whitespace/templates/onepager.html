@@ -58,6 +58,7 @@
 <script id="payload" type="application/json">/*__PAYLOAD__*/</script>
 <script>
 const {analysis:A, report:R} = JSON.parse(document.getElementById('payload').textContent);
+const P = A.premise||{}, PD = P.deck||{}, PC = P.captions||{};
 const S=['#2a78d6','#1baf7a','#eda100','#008300'];
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const p=(R.diagnosis.pattern||[]);
@@ -71,7 +72,7 @@ const bucketKeys=Object.keys(A.buckets).filter(b=>ents.some(e=>(val(e,b)||0)>0))
   .sort((a,b)=>(val(brandName,b)||0)-(val(brandName,a)||0)).slice(0,5);
 const maxV=Math.max(...bucketKeys.flatMap(b=>ents.map(e=>val(e,b)||0)));
 document.getElementById('page').innerHTML=`
-  <div class="eyebrow">Category whitespace & merchandising — executive summary</div>
+  <div class="eyebrow">${esc(P.eyebrow||'Whitespace analysis')} — executive summary</div>
   <h1>${esc(R.title)}</h1>
   <div class="sub">${esc(R.subtitle||'')}${R.badge?`<span class="badge">${esc(R.badge)}</span>`:''}</div>
   <div class="verdict">${esc(R.diagnosis.verdict)}</div>
@@ -85,8 +86,8 @@ document.getElementById('page').innerHTML=`
   ${bucketKeys.map(b=>`<div class="brow"><div class="blabel">${esc(A.buckets[b])}</div><div class="bars">
     ${ents.map((e,i)=>{const v=val(e,b);return v==null?'':`<div class="bar" style="width:${(v/maxV*88).toFixed(1)}%;background:${S[i]}"><span class="val">${(v*100).toFixed(0)}%</span></div>`}).join('')}
   </div></div>`).join('')}
-  <div class="caption">${isMix?'Purchase mix — share of purchases; sums to 100% per brand.':'Catalog share — share of SKUs offered (offer-side, not behavioral).'}</div>
-  <h2>Do now — from today’s catalog</h2>
+  <div class="caption">${isMix?(PC.mix||'Purchase mix — share of purchases; sums to 100% per brand.'):(PC.offer_share||'Catalog share — share of SKUs offered (offer-side, not behavioral).')}</div>
+  <h2>${esc(PD.now_label||'Do now — from today’s catalog')}</h2>
   ${(R.recommendation.now||[]).map((r,i)=>`<div class="rec"><div class="n">${i+1}</div>
     <div><b>${esc(r.action)}</b><p>${esc(r.detail||'')}</p></div></div>`).join('')}
   <h2>Next step</h2>
