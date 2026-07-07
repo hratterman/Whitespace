@@ -17,7 +17,8 @@ analysis). The skill is fully guided: it offers the demo, scaffolds your data
 directory, converts whatever catalog data you have — an export, a pasted
 product list, or nothing yet — into the input contract, asks you the few
 questions only you can answer (competitors, merchandising observations,
-whether you have buyer data), then computes and writes the report. The rest
+whether you have buyer data), then computes and delivers all three formats —
+slide deck, strategist memo, and executive one-pager. The rest
 of this guide is for running the pieces yourself.
 
 ## What you need
@@ -77,13 +78,19 @@ python3 -m whitespace prompt examples/meridian
 ```
 
 This writes `examples/meridian/out/prompt.md` — a single self-contained
-prompt bundling the method, the output contract, and the analysis object.
-Paste it into claude.ai and save the response as `report.md`.
+prompt bundling the method, the output contracts, and the analysis object.
+Paste it into claude.ai; the response contains `report.md` followed by a
+```json block. Save the block as `out/report.json`, then
+`python3 -m whitespace render examples/meridian` produces the deck and
+one-pager locally.
 
 ### Step 3: Read the result
 
-Compare what you got against `examples/meridian/sample-report.md` — the
-committed reference deliverable. A good report leads with the **diagnosis**
+You get three deliverables in `out/`: `report.md` (the strategist memo),
+`deck.html` (a self-contained slide deck — open it, arrow keys to navigate,
+⌘P for PDF), and `onepager.html` (executive summary). Compare against the
+committed references: `examples/meridian/sample-report.md` and
+`sample-deck.html`. A good report leads with the **diagnosis**
 (demand problem vs merchandising problem), then the **composition gap**, and
 ends with a recommendation split into *committable now from today's catalog*
 vs *requires new capability*. If your output reads like a dashboard of

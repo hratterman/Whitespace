@@ -9,6 +9,10 @@
   python -m whitespace prompt DATA_DIR [--out OUT_DIR]
       analyze + emit prompt.md for the paste seam.
 
+  python -m whitespace render DATA_DIR [--out OUT_DIR]
+      combine out/analysis.json + out/report.json (the model's structured
+      judgment, per method/REPORT_SPEC.md) into deck.html + onepager.html.
+
 The reasoning/report step runs on the subscription frontier model — via the
 repo's Claude Code skill (agent mode) or by pasting prompt.md (paste seam).
 """
@@ -23,6 +27,7 @@ from pathlib import Path
 from .assemble import build_analysis
 from .ingest import load_inputs
 from .prompt import build_prompt
+from .render import render
 from .scaffold import init_data_dir
 
 
@@ -64,8 +69,28 @@ def main(argv: list[str] | None = None) -> int:
     p_init = sub.add_parser("init")
     p_init.add_argument("data_dir", help="directory to scaffold")
     p_init.add_argument("--brand", default=None, help="brand name for the templates")
+    p_render = sub.add_parser("render")
+    p_render.add_argument("data_dir", help="directory whose out/ holds analysis.json + report.json")
+    p_render.add_argument("--out", default=None,
+                          help="directory holding the json inputs and receiving the html (default: DATA_DIR/out)")
 
     args = parser.parse_args(argv)
+    if args.command == "render":
+        out_dir = Path(args.out) if args.out else Path(args.data_dir) / "out"
+        try:
+            analysis = json.loads((out_dir / "analysis.json").read_text())
+            report = json.loads((out_dir / "report.json").read_text())
+            written = render(analysis, report, out_dir)
+        except FileNotFoundError as e:
+            print(f"error: {e.filename} not found — run `analyze` first, and have the "
+                  "reasoning step write report.json (method/REPORT_SPEC.md)", file=sys.stderr)
+            return 1
+        except (ValueError, json.JSONDecodeError) as e:
+            print(f"error: {e}", file=sys.stderr)
+            return 1
+        for w in written:
+            print(f"wrote {w}")
+        return 0
     if args.command == "init":
         written = init_data_dir(args.data_dir, args.brand)
         if written:

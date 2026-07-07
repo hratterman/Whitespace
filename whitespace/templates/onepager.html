@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Whitespace one-pager</title>
+<style>
+  :root{
+    --surface:#fcfcfb; --ink:#171614; --ink-2:#52514e; --muted:#898781;
+    --hair:#e1e0d9; --accent:#1c5cab; --accent-soft:#e3edf9;
+    --good:#0ca30c; --warn:#b95c33; --bad:#c23636;
+    --s1:#2a78d6; --s2:#1baf7a;
+    --serif:Georgia,'Times New Roman',serif;
+    --sans:ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:#eceae4;font-family:var(--sans);color:var(--ink);padding:34px 16px}
+  .page{max-width:820px;margin:0 auto;background:var(--surface);border:1px solid var(--hair);
+        border-radius:6px;padding:46px 54px;box-shadow:0 10px 34px rgba(23,22,20,.08)}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.18;margin:8px 0 4px;text-wrap:balance}
+  .sub{color:var(--muted);font-size:13.5px}
+  .badge{display:inline-block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+         color:var(--warn);border:1px solid currentColor;border-radius:99px;padding:2px 9px;margin-left:8px;vertical-align:2px}
+  .verdict{margin:20px 0 6px;padding:13px 18px;background:var(--accent-soft);border-left:3px solid var(--accent);
+           border-radius:0 8px 8px 0;font-family:var(--serif);font-size:17.5px}
+  .why{font-size:14px;line-height:1.55;color:var(--ink-2);margin:12px 0 4px}
+  h2{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+     font-weight:700;margin:26px 0 10px;padding-top:16px;border-top:1px solid var(--hair)}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .tile{border:1px solid var(--hair);border-radius:9px;padding:11px 13px}
+  .tile .q{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .tile .v{font-family:var(--serif);font-size:23px;margin:6px 0 1px;font-variant-numeric:tabular-nums}
+  .tile .bench{font-size:11.5px;color:var(--ink-2)}
+  .tile .read{font-size:11px;font-weight:600;margin-top:7px}
+  .read.good{color:var(--good)}.read.warn{color:var(--warn)}.read.bad{color:var(--bad)}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--ink-2);margin-bottom:10px}
+  .legend .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+  .brow{display:grid;grid-template-columns:190px 1fr;align-items:center;margin-bottom:9px}
+  .blabel{font-size:12.5px;padding-right:14px}
+  .bars{display:flex;flex-direction:column;gap:2px}
+  .bar{height:11px;border-radius:0 3px 3px 0;position:relative;min-width:2px}
+  .bar .val{position:absolute;left:calc(100% + 6px);top:50%;transform:translateY(-50%);
+            font-size:10.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .caption{font-size:11px;color:var(--muted);margin-top:8px}
+  .rec{display:grid;grid-template-columns:24px 1fr;gap:8px;margin-bottom:10px}
+  .rec .n{font-family:var(--serif);font-size:15px;color:var(--muted)}
+  .rec b{font-size:13.5px}.rec p{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-top:1px}
+  .next{background:#f6f5f1;border-radius:9px;padding:14px 18px;font-size:13.5px;line-height:1.5}
+  .foot{margin-top:22px;padding-top:12px;border-top:1px solid var(--hair);font-size:11px;color:var(--muted);
+        display:flex;justify-content:space-between}
+  @media print{body{background:#fff;padding:0}.page{border:none;box-shadow:none;max-width:none;border-radius:0}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="page" id="page"></div>
+<script id="payload" type="application/json">/*__PAYLOAD__*/</script>
+<script>
+const {analysis:A, report:R} = JSON.parse(document.getElementById('payload').textContent);
+const S=['#2a78d6','#1baf7a','#eda100','#008300'];
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const p=(R.diagnosis.pattern||[]);
+const c=R.composition, isMix=c.source==='purchase_mix', brandName=A.meta.brand;
+const val=(e,b)=>{ if(isMix){const row=A.diagnostic.purchase_mix.buckets[b]||{};
+    return row[e===brandName?'brand':e]??null;}
+  const comp=e===brandName?A.catalog_composition.brand:A.catalog_composition.competitors[e];
+  return comp?.buckets?.[b]?.share??0;};
+const ents=c.entities.slice(0,2);
+const bucketKeys=Object.keys(A.buckets).filter(b=>ents.some(e=>(val(e,b)||0)>0))
+  .sort((a,b)=>(val(brandName,b)||0)-(val(brandName,a)||0)).slice(0,5);
+const maxV=Math.max(...bucketKeys.flatMap(b=>ents.map(e=>val(e,b)||0)));
+document.getElementById('page').innerHTML=`
+  <div class="eyebrow">Category whitespace & merchandising — executive summary</div>
+  <h1>${esc(R.title)}</h1>
+  <div class="sub">${esc(R.subtitle||'')}${R.badge?`<span class="badge">${esc(R.badge)}</span>`:''}</div>
+  <div class="verdict">${esc(R.diagnosis.verdict)}</div>
+  <div class="why">${esc(R.why_it_matters)}</div>
+  ${p.length?`<h2>The pattern</h2><div class="tiles">${p.map(t=>`
+    <div class="tile"><div class="q">${esc(t.question)}</div><div class="v">${esc(t.brand_display)}</div>
+    <div class="bench">vs ${esc(t.benchmark_display)}</div>
+    <div class="read ${esc(t.tone||'warn')}">${esc(t.read)}</div></div>`).join('')}</div>`:''}
+  <h2>The composition gap</h2>
+  <div class="legend">${ents.map((e,i)=>`<span><span class="sw" style="background:${S[i]}"></span>${esc(e)}</span>`).join('')}</div>
+  ${bucketKeys.map(b=>`<div class="brow"><div class="blabel">${esc(A.buckets[b])}</div><div class="bars">
+    ${ents.map((e,i)=>{const v=val(e,b);return v==null?'':`<div class="bar" style="width:${(v/maxV*88).toFixed(1)}%;background:${S[i]}"><span class="val">${(v*100).toFixed(0)}%</span></div>`}).join('')}
+  </div></div>`).join('')}
+  <div class="caption">${isMix?'Purchase mix — share of purchases; sums to 100% per brand.':'Catalog share — share of SKUs offered (offer-side, not behavioral).'}</div>
+  <h2>Do now — from today’s catalog</h2>
+  ${(R.recommendation.now||[]).map((r,i)=>`<div class="rec"><div class="n">${i+1}</div>
+    <div><b>${esc(r.action)}</b><p>${esc(r.detail||'')}</p></div></div>`).join('')}
+  <h2>Next step</h2>
+  <div class="next">${esc(R.next_step.narrative)}</div>
+  <div class="foot"><span>${esc(A.meta.brand)} · ${esc(A.meta.mode)} · ${esc(A.meta.generated)}</span>
+    <span>${(R.appendix?.data_flags||[]).length} data flag(s) — see full report appendix</span></div>`;
+document.title=R.title+' — one-pager';
+</script>
+</body>
+</html>

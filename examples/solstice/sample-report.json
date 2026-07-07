@@ -1,0 +1,110 @@
+{
+  "title": "The Upgrade Journey Exists — Solstice Just Doesn't Sell It",
+  "subtitle": "Solstice Espresso · category whitespace & merchandising analysis · public-data mode",
+  "badge": "Synthetic demonstration data",
+  "why_it_matters": "Solstice's accessory catalog is 45% cleaning supplies and spare parts, with exactly one personalization item — sold on an alphabetized parts page. Its premium competitor runs a storefront built entirely around the owner's upgrade journey, on a catalog half Solstice's commodity weight. This analysis runs on catalog and storefront data alone; the close is about getting the one dataset that would size the prize.",
+
+  "diagnosis": {
+    "verdict": "A merchandising void, not a catalog void — pending behavioral confirmation.",
+    "narrative": "Public data can't see attach, spend, mix, or channel, so the diagnosis rests on what can be audited: what's offered and how it's sold. The catalog already contains a credible enthusiast path — precision scale, bottomless portafilter, walnut tamper handle, shot timer — presented as an undifferentiated parts list, with nothing offered at machine checkout. The cheapest consistent hypothesis is that Solstice under-monetizes owners it already has. Attach, spend, and mix data (as buyer_behavior.yaml) would confirm it and upgrade this analysis automatically.",
+    "pattern": []
+  },
+
+  "composition": {
+    "headline": "One personalization SKU against a four-item program",
+    "narrative": "Offer-side view: Solstice's catalog is 45% consumables and maintenance against Barista Culture's 21%, and 5% visible personalization against 29% — one walnut tamper handle versus a program of handles, knobs, and panels with a bespoke finish option behind it. Modena shows the other failure mode: the deepest parts catalog and no guidance at all.",
+    "source": "catalog_share",
+    "entities": ["Solstice Espresso", "Barista Culture", "Modena Espresso"],
+    "callout_bucket": "exterior_personalization"
+  },
+
+  "benchmark_note": {
+    "headline": "Benchmark the selling behavior, not the shelf list",
+    "narrative": "Without purchase data we can't prove Barista Culture's buyers buy personalization — so the benchmark is the strongest observable proxy, labeled as such: sustained merchandising investment. Nobody keeps funding three named kits, a bespoke wood program, and an owner-journey storefront for categories that don't convert. Modena is the caution against presence-benchmarking: it offers precision gear too, and merchandises none of it."
+  },
+
+  "channel": null,
+
+  "storefront_critique": {
+    "headline": "The catalog has an enthusiast story; the storefront tells none of it",
+    "bullets": [
+      "One alphabetized \"Parts & Accessories\" page; the only navigation aid is a machine-compatibility filter.",
+      "The walnut tamper handle — the single item that could anchor an upgrade story — sits between water filters and cleaning cloths.",
+      "A new Lumen owner checking out sees no kit, no \"what you'll want in week one,\" no styled counter photo.",
+      "No bundles, no named kits, no bespoke option anywhere."
+    ]
+  },
+
+  "merchandising_benchmark": {
+    "headline": "Kits at checkout vs a parts counter",
+    "narrative": "Barista Culture sells the journey — three named kits offered at machine checkout, an owner-journey storefront, made-to-order wood in four finishes. Modena documents fitment beautifully and guides nobody."
+  },
+
+  "packs": {
+    "headline": "Three kits — hypotheses from the existing catalog",
+    "narrative": "Public-data mode: these are merchandising hypotheses to test, not sized opportunities. Every SKU already exists; each kit maps to an owner moment. No affinity data exists, so no lifestyle theming beyond the product's own ritual is proposed.",
+    "items": [
+      { "name": "First Morning Kit", "target": "the new Lumen/Meridiana owner, at machine checkout", "grounding": "hypothesis",
+        "skus": [
+          { "name": "Cleaning Tablets", "price": "$15" },
+          { "name": "Descaling Solution", "price": "$18" },
+          { "name": "Milk Pitcher 12oz", "price": "$24" },
+          { "name": "Tamping Mat", "price": "$19" },
+          { "name": "Precision Coffee Scale", "price": "$89" }
+        ],
+        "component_sum": "$165", "bundle_price": "$149" },
+      { "name": "Naked Shot Kit", "target": "the enthusiast chasing better extraction", "grounding": "hypothesis",
+        "skus": [
+          { "name": "Bottomless Portafilter 58mm", "price": "$79" },
+          { "name": "Precision Basket 18g", "price": "$32" },
+          { "name": "Smart Shot Timer", "price": "$59" }
+        ],
+        "component_sum": "$170", "bundle_price": "$155" },
+      { "name": "Counter Piece Kit", "target": "pride of ownership — the dressed bar", "grounding": "hypothesis",
+        "skus": [
+          { "name": "Walnut Tamper Handle", "price": "$49" },
+          { "name": "Flat-Base Tamper 58mm", "price": "$35" },
+          { "name": "Countertop Organizer Tray", "price": "$45" },
+          { "name": "Logo Espresso Cups (Set of 2)", "price": "$28" }
+        ],
+        "component_sum": "$157", "bundle_price": "$139" }
+    ]
+  },
+
+  "pricing_note": {
+    "headline": "Price is not the lever",
+    "narrative": "On confirmed like-for-like items Solstice is at or below peers: bottomless portafilter $79 vs $85 (−7%); precision basket $32 vs $29 (+10% — a $3 gap on a $30 item). The personalization assortment void and the absent merchandising layer are the levers. No pricing action recommended."
+  },
+
+  "recommendation": {
+    "now": [
+      { "action": "Launch the three kits at bundle pricing", "detail": "First Morning Kit offered at machine checkout — the moment of highest intent." },
+      { "action": "Re-merchandise the store", "detail": "Owner-journey sections replacing the alphabetical list; a styled counter photo on every machine page; the walnut handle surfaced as the hero of an upgrade story." }
+    ],
+    "next": [
+      { "action": "Build the personalization range the void demands", "detail": "Panels or accent kits and a second wood finish — following Barista Culture's bespoke playbook only if kit take-rate supports it." },
+      { "action": "Extend performance depth", "detail": "Flow control for the Pro journey." }
+    ]
+  },
+
+  "next_step": {
+    "headline": "One dataset changes everything",
+    "narrative": "Pull attach rate, median accessory spend, and purchase mix from store analytics; drop it in as buyer_behavior.yaml and re-run. Until then: ship the First Morning Kit and measure checkout take-rate for 60 days."
+  },
+
+  "appendix": {
+    "mapping_resolutions": [
+      { "sku": "SE-20 Smart Shot Timer", "bucket": "utility_cargo_towing", "reason": "workflow measurement tool, not an extraction-path component" }
+    ],
+    "comparability_calls": [
+      "Knock Box Compact ($39) vs Barista Culture Knock Box Large ($59) — different sizes, used directionally only",
+      "Walnut Tamper Handle ($49) vs Walnut Handle & Knob Set ($129) — rejected: different scope"
+    ],
+    "data_flags": [
+      "All data in this fixture is synthetic demonstration data; brands and products are fictional.",
+      "No buyer-behavior data supplied — every percentage in this deck is catalog share (offer-side); no behavioral claims are made.",
+      "Merchandising attributes come from a simulated storefront audit (July 2026)."
+    ],
+    "figure_types_note": "Catalog share = share of SKUs offered (offer-side, not behavioral) — the only figure type public-data mode can support. Sections labeled 'proxy' stand in for unobserved purchase behavior."
+  }
+}
