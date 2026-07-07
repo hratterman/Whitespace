@@ -1,0 +1,62 @@
+# Domain taxonomy override: espresso-machine accessories.
+# Same bucket keys as the root taxonomy (the method reasons over these types),
+# relabeled and re-keyworded for the coffee domain. This file living in the
+# data directory overrides the repo-root automotive taxonomy.
+
+buckets:
+  commodity_protection:
+    label: "Consumables / Maintenance"
+    description: >
+      Keep-it-running basics: descaler, cleaning tablets, water treatment,
+      gaskets, spare parts. High-attach, low-emotion, low spend ceiling.
+  exterior_personalization:
+    label: "Visible / Machine Personalization"
+    description: >
+      Statement pieces visible on the counter: wood handle kits, custom
+      panels, knobs, engraved hardware. The bucket that grows spend and pride
+      of ownership.
+  utility_cargo_towing:
+    label: "Workflow / Utility"
+    description: >
+      Tools that make the daily ritual work: scales, tampers, knock boxes,
+      pitchers, organizers.
+  performance:
+    label: "Extraction Performance"
+    description: >
+      Items that change shot quality: precision baskets, bottomless
+      portafilters, flow control, puck prep.
+  lifestyle_whitespace:
+    label: "Lifestyle / White-space"
+    description: >
+      Adjacent-ritual categories: cups and barware, apparel, home-café goods.
+      Margin/halo territory, not volume.
+  other:
+    label: "Other"
+    description: >
+      Genuinely uncategorizable after review; only a deliberate, recorded
+      model decision places anything here.
+
+mapping:
+  exact:
+    "cleaning and care": commodity_protection
+    "water treatment": commodity_protection
+    "parts and gaskets": commodity_protection
+    "machine customization": exterior_personalization
+    "workflow tools": utility_cargo_towing
+    "brewing upgrades": performance
+    "barware": lifestyle_whitespace
+
+  keywords:
+    - bucket: performance
+      any: [precision basket, bottomless, portafilter, puck screen,
+            distribution tool, pressure gauge, flow control, pid, dose ring]
+    - bucket: lifestyle_whitespace
+      any: [mug, cup, glass, tumbler, apparel, tee, tote, coaster, poster]
+    - bucket: exterior_personalization
+      any: [walnut, oak, wood, panel, knob, brass, copper, engraved, anodized]
+    - bucket: utility_cargo_towing
+      any: [scale, knock box, tamping station, tamper, pitcher, jug,
+            organizer, mat, stand, shelf, rinser]
+    - bucket: commodity_protection
+      any: [descal, cleaning, tablet, brush, cloth, filter, gasket, care kit,
+            detergent, backflush, test strip]

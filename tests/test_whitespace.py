@@ -111,6 +111,12 @@ class TestEndToEnd(unittest.TestCase):
         self.assertTrue(any(p["bucket"] == "performance"
                             for p in analysis["comparable_price_candidates"]))
 
+    def test_typoed_mix_bucket_is_flagged(self):
+        inputs = load_inputs(EXAMPLE)
+        inputs.buyer_behavior["brand"]["purchase_mix"] = {"commodty_protection": 1.0}
+        analysis = build_analysis(inputs, str(EXAMPLE))
+        self.assertTrue(any("check for typos" in f for f in analysis["data_flags"]))
+
     def test_example_degrades_to_public_mode(self):
         inputs = load_inputs(EXAMPLE)
         inputs.buyer_behavior = None
@@ -120,6 +126,43 @@ class TestEndToEnd(unittest.TestCase):
         # public layer intact
         self.assertTrue(analysis["catalog_composition"]["competitors"])
         self.assertTrue(analysis["comparable_price_candidates"])
+
+
+class TestSolsticeFixture(unittest.TestCase):
+    """Second-domain fixture: taxonomy override + public-data mode."""
+
+    def setUp(self):
+        self.example = REPO / "examples" / "solstice"
+        self.analysis = build_analysis(load_inputs(self.example), str(self.example))
+
+    def test_local_taxonomy_overrides_root(self):
+        self.assertIn("solstice", self.analysis["meta"]["taxonomy_file"])
+        self.assertEqual(self.analysis["buckets"]["commodity_protection"],
+                         "Consumables / Maintenance")
+
+    def test_public_mode_with_no_buyer_file(self):
+        self.assertEqual(self.analysis["meta"]["mode"], "public-data")
+        self.assertIsNone(self.analysis["diagnostic"])
+
+    def test_domain_keywords_map_coffee_gear(self):
+        unmapped = {u["sku_id"] for u in self.analysis["mapping_audit"]["unmapped"]}
+        self.assertEqual(unmapped, {"SE-20"})  # Smart Shot Timer only
+        brand = self.analysis["catalog_composition"]["brand"]["buckets"]
+        self.assertGreater(brand["commodity_protection"]["share"], 0.4)
+
+    def test_exact_category_beats_performance_keyword(self):
+        # "Custom Engraved Portafilter Handle" contains the performance
+        # keyword "portafilter"; its Machine Customization category must win.
+        decision = next(d for d in self.analysis["mapping_audit"]["decisions"]
+                        if d["sku_id"] == "BC-06")
+        self.assertEqual(decision["bucket"], "exterior_personalization")
+        self.assertEqual(decision["how"], "exact-category")
+
+    def test_cross_domain_comparables_found(self):
+        pairs = {(p["brand_sku"], p["competitor_sku"])
+                 for p in self.analysis["comparable_price_candidates"]}
+        self.assertIn(("Bottomless Portafilter 58mm", "Bottomless Portafilter 58mm"),
+                      pairs)
 
 
 class TestScaffold(unittest.TestCase):

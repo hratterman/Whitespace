@@ -53,6 +53,16 @@ def build_analysis(inputs: Inputs, data_dir: str) -> dict:
     if inputs.buyer_behavior:
         bb = inputs.buyer_behavior
         brand = bb.get("brand") or {}
+        known = set(taxonomy["buckets"])
+        mixes = [("brand", brand.get("purchase_mix") or {})] + [
+            (b.get("name", "benchmark"), b.get("purchase_mix") or {})
+            for b in bb.get("benchmarks") or []]
+        for who, mix in mixes:
+            for bucket in mix:
+                if bucket not in known:
+                    analysis["data_flags"].append(
+                        f"{who} purchase_mix bucket {bucket!r} is not in the taxonomy "
+                        f"(known: {', '.join(sorted(known))}) — check for typos")
         analysis["diagnostic"] = {
             "source": bb.get("source"),
             "attach": {

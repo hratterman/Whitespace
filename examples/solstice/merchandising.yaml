@@ -1,0 +1,42 @@
+# SYNTHETIC demonstration data — all brands, products, and figures fictional.
+# Second-domain fixture (espresso gear) — runs in public-data mode: no
+# buyer_behavior.yaml on purpose, to show the graceful-degradation story.
+
+brand:
+  name: Solstice Espresso
+  storefront: own e-commerce site
+  bundles: false
+  named_packs: []
+  curation_level: none
+  curation_notes: >
+    Accessories live under a single "Parts & Accessories" page sorted
+    alphabetically; the Walnut Tamper Handle — the only personalization SKU —
+    is buried between water filters and cleaning cloths; no kit suggestions
+    at machine purchase; no imagery of a dressed-up machine or finished bar.
+  bespoke: false
+  notes: >
+    Machine lines: Lumen (single-boiler) and Meridiana (dual-boiler).
+  source: simulated storefront audit, 2026-07
+
+competitors:
+  - name: Barista Culture
+    bundles: true
+    named_packs: [First Shot Kit, Latte Art Kit, Home Cafe Starter]
+    curation_level: strong
+    curation_notes: >
+      Shop-by-journey storefront (New Owner / Enthusiast / Pro); kits offered
+      at machine checkout; every machine page shows a styled counter setup
+      with customization hardware fitted.
+    bespoke: true
+    bespoke_notes: made-to-order wood handle and knob program in four finishes
+    source: simulated storefront audit, 2026-07
+
+  - name: Modena Espresso
+    bundles: false
+    named_packs: []
+    curation_level: basic
+    curation_notes: >
+      Parts-counter catalog organized by machine model; excellent fitment
+      documentation, no guidance beyond it.
+    bespoke: false
+    source: simulated storefront audit, 2026-07
