@@ -2,7 +2,7 @@
   "name": "whitespace",
   "displayName": "Category Whitespace Tool",
   "description": "Competitive whitespace analysis for any portfolio-vs-competitors problem \u2014 add-ons, consumables, services, schedules, content. Guided /whitespace:analyze delivers a slide deck, memo, and one-pager.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": {
     "name": "Henry Ratterman"
   },

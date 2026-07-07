@@ -321,6 +321,75 @@ class TestHarborlineFixture(unittest.TestCase):
                 self.assertIn(label, deck)
 
 
+class TestWorkbench(unittest.TestCase):
+    """The `serve` workbench API, exercised over real HTTP on a loopback port."""
+
+    @classmethod
+    def setUpClass(cls):
+        import http.server
+        import shutil
+        import threading
+        from whitespace.serve import WorkbenchHandler
+        cls.tmp = tempfile.TemporaryDirectory()
+        data_dir = Path(cls.tmp.name) / "wb"
+        data_dir.mkdir()
+        for f in ("brand_catalog.csv", "competitor_catalog.csv",
+                  "merchandising.yaml", "buyer_behavior.yaml"):
+            shutil.copy(EXAMPLE / f, data_dir / f)
+        handler = type("H", (WorkbenchHandler,), {"data_dir": data_dir})
+        cls.server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
+        cls.port = cls.server.server_address[1]
+        threading.Thread(target=cls.server.serve_forever, daemon=True).start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.server.shutdown()
+        cls.tmp.cleanup()
+
+    def _req(self, method, path, body=None, headers=None):
+        import http.client
+        conn = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
+        conn.request(method, path, body=body, headers=headers or {})
+        res = conn.getresponse()
+        data = res.read()
+        conn.close()
+        return res.status, data
+
+    def test_state_and_page(self):
+        status, page = self._req("GET", "/")
+        self.assertEqual(status, 200)
+        self.assertIn(b"Whitespace workbench", page)
+        status, data = self._req("GET", "/api/state")
+        state = json.loads(data)
+        self.assertTrue(state["files"]["brand_catalog.csv"])
+        self.assertTrue(any(p["key"] == "attach" for p in state["presets"]))
+
+    def test_upload_rejects_unexpected_names(self):
+        status, data = self._req("POST", "/api/upload", body="x",
+                                 headers={"X-Filename": "../evil.sh"})
+        self.assertEqual(status, 400)
+        self.assertIn("unsupported file name", json.loads(data)["error"])
+
+    def test_analyze_then_pasted_reply_renders_deck(self):
+        status, data = self._req("POST", "/api/analyze")
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(data)["analysis"]["meta"]["mode"],
+                         "full-diagnostic")
+        report = (EXAMPLE / "sample-report.json").read_text()
+        reply = "The memo prose goes here. " * 20 + "\n```json\n" + report + "\n```"
+        status, data = self._req("POST", "/api/report", body=reply.encode())
+        self.assertEqual(status, 200)
+        self.assertTrue(json.loads(data)["hasProse"])
+        status, deck = self._req("GET", "/out/deck.html")
+        self.assertEqual(status, 200)
+        self.assertIn(b"Accessory Buyer", deck)
+
+    def test_garbage_paste_gets_friendly_error(self):
+        status, data = self._req("POST", "/api/report", body=b"not json at all")
+        self.assertEqual(status, 400)
+        self.assertIn("paste Claude's full response", json.loads(data)["error"])
+
+
 class TestScaffold(unittest.TestCase):
     def test_init_writes_templates_without_activating_full_mode(self):
         with tempfile.TemporaryDirectory() as tmp:

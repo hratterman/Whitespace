@@ -17,6 +17,7 @@ Key commands:
 python3 -m whitespace init  <data-dir>    # scaffold input templates
 python3 -m whitespace analyze <data-dir>  # validate + compute analysis.json
 python3 -m whitespace prompt  <data-dir>  # + paste-seam prompt for claude.ai users
+python3 -m whitespace serve   <data-dir>  # local browser workbench (paste-seam UI)
 python3 -m unittest discover -s tests     # test suite (stdlib runner)
 ```
 

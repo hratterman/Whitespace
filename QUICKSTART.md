@@ -21,6 +21,19 @@ whether you have buyer data), then computes and delivers all three formats —
 slide deck, strategist memo, and executive one-pager. The rest
 of this guide is for running the pieces yourself.
 
+## Part 0.5 — No Claude Code? The workbench
+
+If you (or whoever you hand this to) only have claude.ai, skip the raw CLI:
+
+```bash
+python3 -m whitespace serve data/mybrand
+```
+
+opens a local browser workbench: drop files on cards, run the checks, copy
+the reasoning prompt with one button, paste it into claude.ai, paste the
+reply back, and the deck renders on the page. Everything below still applies
+— the workbench is just a friendlier skin over the same steps.
+
 ## What you need
 
 - **Python 3.10+** and one dependency: `pip install -r requirements.txt` (PyYAML).
