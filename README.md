@@ -41,25 +41,50 @@ chart-accurate. Sample decks: [Meridian](examples/meridian/sample-deck.html)
 · [Solstice](examples/solstice/sample-deck.html) (download and open, or
 print to PDF).
 
-## Install (Claude Code)
+## You talk to it
+
+The primary interface is a conversation, not a command line. Install once in
+Claude Code (terminal, desktop app, claude.ai/code, or Cowork — the plugin
+works in all of them):
 
 ```
 /plugin marketplace add hratterman/Whitespace
 /plugin install whitespace@whitespace
 ```
 
-Then in any project:
+Then just say what you want, in any project:
 
-```
-/whitespace:analyze demo        # see it work, zero setup
-/whitespace:analyze             # guided flow for your own brand
+> *"Analyze my accessory lineup against Thule and Yakima — here's our
+> catalog export."*
+> *"Where is my studio leaving money on the table vs the gym across town?"*
+> *"/whitespace:analyze demo"*
+
+The skill carries you through everything: it frames your world (or derives a
+custom premise for it), scaffolds the data directory, converts whatever data
+you have — an export, a pasted list, or nothing yet — into the contract,
+asks only the questions it can't answer itself, then computes, writes, and
+renders all three deliverables. Every CLI command below is something Claude
+runs *for* you.
+
+## No Claude Code? Use the workbench
+
+For everyone else — a colleague with just a claude.ai account, a client —
+there's a local browser workbench:
+
+```bash
+python3 -m whitespace serve data/mybrand
 ```
 
-The skill carries you through everything: it scaffolds the data directory,
-converts whatever catalog data you have — an export, a pasted product list,
-or nothing yet — into the input contract, asks only the questions it can't
-answer itself, then computes, writes, and renders all three deliverables. No
-docs required.
+<p align="center">
+  <img src="assets/workbench.png" alt="The workbench: drag-and-drop data cards, friendly validation with stat tiles and flags, a composition preview, and a guided judgment step" width="72%">
+</p>
+
+Drop your files on the cards (templates one click away), run the checks and
+read the flags as friendly cards instead of terminal text, copy the
+reasoning prompt with one button, paste Claude's reply back, and the deck
+renders right on the page. Runs entirely on localhost — stdlib only, no
+account, no API key; the judgment work still happens on your own Claude
+subscription.
 
 ## What to point it at: the premise system
 
@@ -159,10 +184,10 @@ python3 -m unittest discover -s tests              # test suite
 ```
 
 Then either invoke `/whitespace <data-dir>` in a Claude Code session opened
-in the repo, or — for claude.ai users — `python3 -m whitespace prompt
-<data-dir>` emits a self-contained `prompt.md` (method + output contract +
-analysis object) to paste into a chat; save the response as `report.md`.
-[QUICKSTART.md](QUICKSTART.md) is the full walkthrough.
+in the repo, use `python3 -m whitespace serve <data-dir>` for the browser
+workbench, or — for the raw paste seam — `python3 -m whitespace prompt
+<data-dir>` emits a self-contained `prompt.md` to run through claude.ai by
+hand. [QUICKSTART.md](QUICKSTART.md) is the full walkthrough.
 
 ## Design commitments
 

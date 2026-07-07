@@ -76,8 +76,16 @@ def main(argv: list[str] | None = None) -> int:
     p_render.add_argument("data_dir", help="directory whose out/ holds analysis.json + report.json")
     p_render.add_argument("--out", default=None,
                           help="directory holding the json inputs and receiving the html (default: DATA_DIR/out)")
+    p_serve = sub.add_parser("serve")
+    p_serve.add_argument("data_dir", help="data directory to work in (created if missing)")
+    p_serve.add_argument("--port", type=int, default=8787)
+    p_serve.add_argument("--no-browser", action="store_true")
 
     args = parser.parse_args(argv)
+    if args.command == "serve":
+        from .serve import serve
+        serve(args.data_dir, args.port, open_browser=not args.no_browser)
+        return 0
     if args.command == "render":
         out_dir = Path(args.out) if args.out else Path(args.data_dir) / "out"
         try:

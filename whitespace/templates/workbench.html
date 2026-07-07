@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Whitespace workbench</title>
+<style>
+  :root{
+    --paper:#f0eee8; --surface:#fcfcfb; --ink:#171614; --ink-2:#52514e;
+    --muted:#898781; --hair:#e1e0d9; --accent:#1c5cab; --accent-soft:#e3edf9;
+    --good:#0ca30c; --warn:#b95c33; --bad:#c23636;
+    --serif:Georgia,'Times New Roman',serif;
+    --sans:ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--paper);font-family:var(--sans);color:var(--ink);
+       padding:40px 16px 80px;line-height:1.5}
+  .wrap{max-width:880px;margin:0 auto}
+  header h1{font-family:var(--serif);font-weight:400;font-size:34px}
+  header .sub{color:var(--ink-2);font-size:15px;margin-top:6px;max-width:64ch}
+  header .dir{font-size:12.5px;color:var(--muted);margin-top:10px;font-family:ui-monospace,monospace}
+  .step{background:var(--surface);border:1px solid var(--hair);border-radius:12px;
+        padding:26px 30px;margin-top:22px}
+  .step h2{font-family:var(--serif);font-weight:400;font-size:22px;display:flex;align-items:center;gap:12px}
+  .step h2 .n{font-size:13px;font-family:var(--sans);font-weight:700;color:var(--accent);
+              background:var(--accent-soft);border-radius:99px;width:26px;height:26px;
+              display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .step .hint{color:var(--ink-2);font-size:14px;margin:8px 0 16px;max-width:70ch}
+  .files{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .fcard{border:1.5px dashed var(--hair);border-radius:10px;padding:14px 16px;cursor:pointer;
+         transition:border-color .15s, background .15s}
+  .fcard:hover,.fcard.drag{border-color:var(--accent);background:var(--accent-soft)}
+  .fcard.have{border-style:solid;border-color:#bcd3ee;background:#f4f8fd}
+  .fcard b{font-size:13.5px;font-family:ui-monospace,monospace}
+  .fcard .st{font-size:12px;margin-top:4px;color:var(--muted)}
+  .fcard.have .st{color:var(--good);font-weight:600}
+  .fcard .req{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--warn);float:right}
+  button{font:inherit;font-weight:600;font-size:14px;border:none;border-radius:8px;
+         padding:10px 18px;cursor:pointer;background:var(--accent);color:#fff}
+  button:hover{background:#174e91}
+  button.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+  button:disabled{opacity:.45;cursor:default}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+  input[type=text],select,textarea{font:inherit;border:1px solid var(--hair);border-radius:8px;
+         padding:9px 12px;background:#fff;color:var(--ink)}
+  textarea{width:100%;min-height:150px;font-family:ui-monospace,monospace;font-size:12.5px}
+  .cards{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+  .card{border-left:3px solid var(--hair);background:#f7f6f2;border-radius:0 8px 8px 0;
+        padding:10px 14px;font-size:13.5px;color:var(--ink-2)}
+  .card.warn{border-color:var(--warn)}
+  .card.err{border-color:var(--bad);color:var(--bad)}
+  .card.ok{border-color:var(--good)}
+  .statgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:14px}
+  .stat{border:1px solid var(--hair);border-radius:10px;padding:12px 14px;background:#fff}
+  .stat .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .stat .v{font-family:var(--serif);font-size:22px;margin-top:4px}
+  .stat .d{font-size:12px;color:var(--ink-2)}
+  .bars{margin-top:16px}
+  .brow{display:grid;grid-template-columns:190px 1fr;align-items:center;margin-bottom:8px}
+  .blabel{font-size:12.5px;padding-right:12px}
+  .btrack{display:flex;flex-direction:column;gap:2px}
+  .bar{height:10px;border-radius:0 3px 3px 0;position:relative;min-width:2px}
+  .bar .val{position:absolute;left:calc(100% + 6px);top:50%;transform:translateY(-50%);
+            font-size:10.5px;color:var(--ink-2)}
+  .legend{display:flex;gap:14px;font-size:12px;color:var(--ink-2);margin:10px 0 4px}
+  .legend .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+  .caption{font-size:11.5px;color:var(--muted);margin-top:8px}
+  .seam{background:var(--accent-soft);border-radius:10px;padding:14px 18px;font-size:13.5px;
+        color:var(--ink-2);margin-bottom:14px}
+  .outgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:14px}
+  .ocard{border:1px solid var(--hair);border-radius:10px;padding:16px;background:#fff;text-decoration:none;
+         color:var(--ink);display:block}
+  .ocard:hover{border-color:var(--accent)}
+  .ocard b{font-family:var(--serif);font-weight:400;font-size:18px}
+  .ocard p{font-size:12.5px;color:var(--ink-2);margin-top:4px}
+  #deckframe{width:100%;aspect-ratio:16/10;border:1px solid var(--hair);border-radius:10px;
+             margin-top:16px;background:#fff}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);
+         color:#fff;padding:10px 20px;border-radius:99px;font-size:13.5px;opacity:0;
+         transition:opacity .2s;pointer-events:none}
+  .toast.show{opacity:1}
+  .hidden{display:none}
+  footer{margin-top:28px;font-size:12px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Whitespace workbench</h1>
+    <div class="sub">Find where you're leaving value on the table versus competitors.
+      The math runs here on your machine; the strategy judgment runs on your Claude
+      subscription — no API key, nothing leaves your computer except what you paste
+      into Claude yourself.</div>
+    <div class="dir" id="dir"></div>
+  </header>
+
+  <section class="step" id="step-data">
+    <h2><span class="n">1</span>Your data</h2>
+    <p class="hint">Drop a file on a card (or click it to browse). Only
+      <b>brand_catalog.csv</b> and <b>competitor_catalog.csv</b> and
+      <b>merchandising.yaml</b> are required — everything else upgrades the
+      analysis. Headers don't need to match exactly; common export names
+      (Product, MSRP, SKU…) are understood.</p>
+    <div class="row" id="initrow">
+      <input type="text" id="brand" placeholder="Brand / organization name">
+      <select id="premise"></select>
+      <button class="ghost" onclick="doInit()">Create templates</button>
+    </div>
+    <div class="files" id="files"></div>
+  </section>
+
+  <section class="step" id="step-check">
+    <h2><span class="n">2</span>Run the checks</h2>
+    <p class="hint">Deterministic math: validation, category mapping, composition,
+      price comparables, capture gaps. Problems become flags, never silent fixes.</p>
+    <div class="row"><button onclick="doAnalyze()" id="analyzeBtn">Run checks</button>
+      <span id="mode" style="font-size:13px;color:var(--ink-2)"></span></div>
+    <div id="checkout" class="hidden">
+      <div class="statgrid" id="stats"></div>
+      <div class="cards" id="flags"></div>
+      <div class="bars" id="comp"></div>
+    </div>
+  </section>
+
+  <section class="step" id="step-reason">
+    <h2><span class="n">3</span>The judgment step (your Claude does this)</h2>
+    <div class="seam">Copy the reasoning prompt, paste it into
+      <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>
+      (any paid plan), then paste Claude's whole reply back below. The prompt
+      carries the method, the output contracts, and your computed analysis —
+      Claude writes the strategy; this page never calls a model.</div>
+    <div class="row">
+      <button onclick="copyPrompt()" id="promptBtn" disabled>Copy reasoning prompt</button>
+      <a href="https://claude.ai" target="_blank" rel="noopener" style="font-size:13.5px">open claude.ai ↗</a>
+    </div>
+    <div class="row" style="display:block">
+      <textarea id="reply" placeholder="Paste Claude's full reply here (the report followed by a ```json block) — or just the JSON block."></textarea>
+    </div>
+    <div class="row"><button onclick="doRender()" id="renderBtn" disabled>Render deliverables</button></div>
+    <div class="cards" id="renderMsg"></div>
+  </section>
+
+  <section class="step hidden" id="step-out">
+    <h2><span class="n">4</span>Your deliverables</h2>
+    <div class="outgrid">
+      <a class="ocard" href="/out/deck.html" target="_blank"><b>Slide deck</b>
+        <p>Present it: arrow keys to navigate, ⌘P for PDF.</p></a>
+      <a class="ocard" href="/out/onepager.html" target="_blank"><b>One-pager</b>
+        <p>The executive summary, printable.</p></a>
+      <a class="ocard" href="/out/report.md" target="_blank" id="mdcard"><b>Strategist memo</b>
+        <p>The full written argument (markdown).</p></a>
+    </div>
+    <iframe id="deckframe" title="Deck preview"></iframe>
+  </section>
+
+  <footer>Whitespace · runs entirely on localhost · your Claude subscription is the analyst</footer>
+</div>
+<div class="toast" id="toast"></div>
+<input type="file" id="picker" class="hidden">
+
+<script>
+const REQUIRED = ["brand_catalog.csv","competitor_catalog.csv","merchandising.yaml"];
+const OPTIONAL = ["buyer_behavior.yaml","taxonomy.yaml","premise.yaml"];
+const DESC = {
+  "brand_catalog.csv":"your offerings, one per row",
+  "competitor_catalog.csv":"competitors' offerings",
+  "merchandising.yaml":"how each player packages & guides",
+  "buyer_behavior.yaml":"unlocks the full diagnostic",
+  "taxonomy.yaml":"custom category buckets",
+  "premise.yaml":"the frame (world & vocabulary)"};
+let state=null, analyzed=false, pickTarget=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2600);}
+
+async function refresh(){
+  state = await (await fetch("/api/state")).json();
+  $("dir").textContent = state.dir;
+  const sel=$("premise");
+  if(!sel.options.length){
+    for(const p of state.presets){const o=document.createElement("option");
+      o.value=p.key;o.textContent=`${p.name} (${p.key})`;sel.appendChild(o);}}
+  const anyFile = Object.values(state.files).some(Boolean);
+  $("initrow").style.display = anyFile ? "none" : "flex";
+  const wrap=$("files");wrap.innerHTML="";
+  for(const name of [...REQUIRED,...OPTIONAL]){
+    const have=state.files[name], req=REQUIRED.includes(name);
+    const d=document.createElement("div");
+    d.className="fcard"+(have?" have":"");
+    d.innerHTML=`${req&&!have?'<span class="req">required</span>':''}<b>${name}</b>
+      <div class="st">${have?"✓ loaded":"drop a file or click"} · ${DESC[name]}</div>`;
+    d.onclick=()=>{pickTarget=name;$("picker").click();};
+    d.ondragover=e=>{e.preventDefault();d.classList.add("drag");};
+    d.ondragleave=()=>d.classList.remove("drag");
+    d.ondrop=e=>{e.preventDefault();d.classList.remove("drag");
+      if(e.dataTransfer.files[0]) upload(name,e.dataTransfer.files[0]);};
+    wrap.appendChild(d);
+  }
+}
+$("picker").onchange=e=>{if(e.target.files[0]&&pickTarget)upload(pickTarget,e.target.files[0]);e.target.value="";};
+
+async function upload(name,file){
+  const res=await(await fetch("/api/upload",{method:"POST",
+    headers:{"X-Filename":name},body:await file.text()})).json();
+  if(res.error) return toast(res.error);
+  toast(`${name} saved`); analyzed=false; refresh();
+}
+async function doInit(){
+  const res=await(await fetch("/api/init",{method:"POST",body:JSON.stringify({
+    brand:$("brand").value,premise:$("premise").value})})).json();
+  toast(res.written?.length?`templates created (${res.written.length} files)`:"templates already exist");
+  refresh();
+}
+
+async function doAnalyze(){
+  $("analyzeBtn").disabled=true;
+  const res=await(await fetch("/api/analyze",{method:"POST"})).json();
+  $("analyzeBtn").disabled=false;
+  const flags=$("flags");flags.innerHTML="";$("checkout").classList.remove("hidden");
+  if(res.error){$("stats").innerHTML="";$("comp").innerHTML="";
+    flags.innerHTML=`<div class="card err">${esc(res.error)}</div>`;return;}
+  const a=res.analysis;analyzed=true;$("promptBtn").disabled=false;$("renderBtn").disabled=false;
+  $("mode").textContent=`${a.premise.name} · ${a.meta.mode}`;
+  const comp=a.catalog_composition, nComp=Object.keys(comp.competitors).length;
+  const unmapped=a.mapping_audit.unmapped;
+  $("stats").innerHTML=`
+    <div class="stat"><div class="k">${esc(a.premise.catalog_noun||"catalog")}</div>
+      <div class="v">${comp.brand.total_skus}</div><div class="d">${esc(a.meta.brand)}</div></div>
+    <div class="stat"><div class="k">competitors</div><div class="v">${nComp}</div>
+      <div class="d">${esc(Object.keys(comp.competitors).join(", "))}</div></div>
+    <div class="stat"><div class="k">needs a judgment call</div><div class="v">${unmapped.length}</div>
+      <div class="d">unmapped ${unmapped.length===1?"entry":"entries"} — Claude resolves these</div></div>
+    <div class="stat"><div class="k">data flags</div><div class="v">${a.data_flags.length}</div>
+      <div class="d">carried into the report appendix</div></div>`;
+  flags.innerHTML =
+    a.data_flags.map(f=>`<div class="card warn">⚑ ${esc(f)}</div>`).join("") +
+    unmapped.map(u=>`<div class="card">? ${esc(u.name)} (${esc(u.raw_category)||"no category"}) — Claude will place this</div>`).join("");
+  // offer-side composition preview, brand vs first competitor
+  const first=Object.keys(comp.competitors)[0];
+  const ents=[["brand",a.meta.brand,"#2a78d6"],[first,first,"#1baf7a"]];
+  const val=(e,b)=> (e==="brand"?comp.brand:comp.competitors[e])?.buckets?.[b]?.share ?? 0;
+  const keys=Object.keys(a.buckets).filter(b=>ents.some(([e])=>val(e,b)>0))
+    .sort((x,y)=>val("brand",y)-val("brand",x)).slice(0,6);
+  const maxV=Math.max(...keys.flatMap(b=>ents.map(([e])=>val(e,b))));
+  $("comp").innerHTML = first ? `
+    <div class="legend">${ents.map(([,n,c])=>`<span><span class="sw" style="background:${c}"></span>${esc(n)}</span>`).join("")}</div>
+    ${keys.map(b=>`<div class="brow"><div class="blabel">${esc(a.buckets[b])}</div><div class="btrack">
+      ${ents.map(([e,,c])=>{const v=val(e,b);return `<div class="bar" style="width:${(v/maxV*86).toFixed(1)}%;background:${c}"><span class="val">${(v*100).toFixed(0)}%</span></div>`}).join("")}
+    </div></div>`).join("")}
+    <div class="caption">${esc(a.premise.captions?.offer_share||"Share of offerings (offer-side, not behavioral).")} The full behavioral read happens in the judgment step.</div>` : "";
+}
+
+async function copyPrompt(){
+  const res=await(await fetch("/api/prompt")).json();
+  if(res.error) return toast(res.error);
+  await navigator.clipboard.writeText(res.prompt);
+  toast(`prompt copied (${Math.round(res.prompt.length/1000)}k chars) — paste it into claude.ai`);
+}
+
+async function doRender(){
+  const msg=$("renderMsg");msg.innerHTML="";
+  const res=await(await fetch("/api/report",{method:"POST",body:$("reply").value})).json();
+  if(res.error){msg.innerHTML=`<div class="card err">${esc(res.error)}</div>`;return;}
+  msg.innerHTML=`<div class="card ok">✓ deliverables rendered${res.hasProse?"":" (no memo prose found — deck and one-pager only)"}</div>`;
+  $("mdcard").style.display=res.hasProse?"block":"none";
+  $("step-out").classList.remove("hidden");
+  $("deckframe").src="/out/deck.html?"+Date.now();
+  $("step-out").scrollIntoView({behavior:"smooth"});
+}
+refresh();
+</script>
+</body>
+</html>
