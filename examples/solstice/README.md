@@ -1,7 +1,7 @@
 # Example fixture: Solstice Espresso (second domain, public-data mode)
 
-**Everything here is synthetic.** This is the tool's second-domain fixture —
-espresso-machine accessories instead of vehicles — and it exists to prove two
+**Everything here is synthetic.** This is the tool's second-domain fixture -
+espresso-machine accessories instead of vehicles - and it exists to prove two
 things:
 
 1. **Domain portability.** The local `taxonomy.yaml` overrides the repo-root
@@ -14,10 +14,10 @@ things:
    proposes kits as hypotheses rather than sized opportunities. See
    `sample-report.md` for the public-mode voice.
 
-The cast: **Solstice Espresso** (subject — credible enthusiast catalog, zero
+The cast: **Solstice Espresso** (subject - credible enthusiast catalog, zero
 merchandising), **Barista Culture** (the merchandising benchmark: named kits,
 owner-journey storefront, bespoke wood program), **Modena Espresso** (depth
-without guidance — a parts counter).
+without guidance - a parts counter).
 
 The fixture also carries one deliberately unmappable SKU (Smart Shot Timer,
 category "Gadgets") and two comparable-price pairs the model must reject or

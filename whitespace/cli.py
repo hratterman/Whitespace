@@ -13,7 +13,7 @@
       combine out/analysis.json + out/report.json (the model's structured
       judgment, per method/REPORT_SPEC.md) into deck.html + onepager.html.
 
-The reasoning/report step runs on the subscription frontier model — via the
+The reasoning/report step runs on the subscription frontier model - via the
 repo's Claude Code skill (agent mode) or by pasting prompt.md (paste seam).
 """
 
@@ -45,11 +45,11 @@ def _analyze(data_dir: str, out_dir: Path) -> dict:
           f"competitors: {', '.join(comp['competitors']) or 'none'}")
     unmapped = analysis["mapping_audit"]["unmapped"]
     if unmapped:
-        print(f"\nUNMAPPED ({len(unmapped)}) — the model must resolve these before "
+        print(f"\nUNMAPPED ({len(unmapped)}) - the model must resolve these before "
               "composition is final:")
         for u in unmapped:
             who = u["competitor"] or "brand"
-            print(f"  [{who}] {u['name']}  (raw category: {u['raw_category'] or '—'})")
+            print(f"  [{who}] {u['name']}  (raw category: {u['raw_category'] or '-'})")
     if analysis["data_flags"]:
         print(f"\nDATA FLAGS ({len(analysis['data_flags'])}):")
         for flag in analysis["data_flags"]:
@@ -93,7 +93,7 @@ def main(argv: list[str] | None = None) -> int:
             report = json.loads((out_dir / "report.json").read_text())
             written = render(analysis, report, out_dir)
         except FileNotFoundError as e:
-            print(f"error: {e.filename} not found — run `analyze` first, and have the "
+            print(f"error: {e.filename} not found - run `analyze` first, and have the "
                   "reasoning step write report.json (method/REPORT_SPEC.md)", file=sys.stderr)
             return 1
         except (ValueError, json.JSONDecodeError) as e:
@@ -109,7 +109,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"\nFill in the templates (see {args.data_dir}/README.md), then run:"
                   f"\n  python3 -m whitespace analyze {args.data_dir}")
         else:
-            print(f"nothing to do — all template files already exist in {args.data_dir}/")
+            print(f"nothing to do - all template files already exist in {args.data_dir}/")
         return 0
 
     out_dir = Path(args.out) if args.out else Path(args.data_dir) / "out"

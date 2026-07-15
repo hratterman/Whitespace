@@ -14,7 +14,7 @@ from pathlib import Path
 METHOD_DIR = Path(__file__).resolve().parent.parent / "method"
 
 _HEADER = """\
-# Category Whitespace Analysis — Reasoning Request
+# Category Whitespace Analysis - Reasoning Request
 
 You are a senior category strategist. Below you have (1) the reasoning method
 you must follow, (2) the output specification for the narrative deliverable,
@@ -24,10 +24,10 @@ analysis object computed deterministically from the input data.
 Apply the method to the analysis object and respond with TWO artifacts, in
 order:
 
-1. The complete `report.md` deliverable — Markdown, following the output
+1. The complete `report.md` deliverable - Markdown, following the output
    specification exactly, starting at the title.
 2. Then a fenced ```json block containing `report.json` per the report-spec
-   schema — the same judgments in structured form. (Save it as
+   schema - the same judgments in structured form. (Save it as
    `out/report.json` and run `python3 -m whitespace render <data-dir>` to get
    the slide deck and executive one-pager.)
 

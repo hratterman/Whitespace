@@ -23,10 +23,10 @@ questions:
     canonical_field: median_spend
   mix:
     label: Mix
-    question: what do they take — protection, care, setup, financing-adjacent?
+    question: what do they take - protection, care, setup, financing-adjacent?
   capture:
     label: Capture
-    question: through whom — at point of sale vs third-party providers later?
+    question: through whom - at point of sale vs third-party providers later?
 
 channels:
   own_channel: Own channel (point of sale)
@@ -35,9 +35,9 @@ channels:
   other: Other
 
 captions:
-  mix: Service mix — share of service purchases by type; sums to 100% per brand.
-  offer_share: Menu share — share of offerings listed (offer-side, not behavioral).
-  capture: Capture share — share of service purchases by provider channel; sums to 100% per brand.
+  mix: "Service mix: share of service purchases by type; sums to 100% per brand."
+  offer_share: "Menu share: share of offerings listed (offer-side, not behavioral)."
+  capture: "Capture share: share of service purchases by provider channel; sums to 100% per brand."
 
 audit_labels:
   bundles: Bundled at checkout
@@ -50,14 +50,14 @@ deck:
   presentation_eyebrow: How the leaders sell coverage
   packs_eyebrow: Packages from the existing menu
   recommendation_headline: Sell it at the moment. Build later.
-  now_label: Now — today's menu
-  next_label: Next — new capability
+  now_label: Now - today's menu
+  next_label: Next - new capability
 
 guidance: >
   Behavioral data means attach and coverage figures: share of buyers taking
   any service, service value per covered buyer, mix across service types,
   and where coverage is bought (point of sale vs later, elsewhere). A pack
   is a named tier or package assembled from existing offerings. Point of
-  sale is the moment of highest intent — capture there is the analog of the
+  sale is the moment of highest intent - capture there is the analog of the
   configurator play. The behavior-shifting benchmark is a competitor whose
   BUYERS demonstrably take coverage, not one that merely lists a big menu.

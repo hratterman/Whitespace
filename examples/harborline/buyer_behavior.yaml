@@ -1,4 +1,4 @@
-# SYNTHETIC demonstration data — fictional member-app analytics.
+# SYNTHETIC demonstration data - fictional member-app analytics.
 # Canonical field names (attach_rate, median_spend, channel_capture,
 # purchase_mix) with this premise's semantics:
 #   attach_rate    = share of members booking ANY class in a month

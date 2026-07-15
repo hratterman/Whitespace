@@ -24,10 +24,10 @@ questions:
     canonical_field: median_spend
   mix:
     label: Mix
-    question: what do they buy — own-brand, compatible, or third-party lines?
+    question: what do they buy - own-brand, compatible, or third-party lines?
   capture:
     label: Capture
-    question: through whom — own channel vs marketplaces vs third parties?
+    question: through whom - own channel vs marketplaces vs third parties?
 
 channels:
   own_channel: Own channel
@@ -36,9 +36,9 @@ channels:
   other: Other
 
 captions:
-  mix: Purchase mix — share of the base's consumables purchases; sums to 100% per brand.
-  offer_share: Catalog share — share of consumable SKUs offered (offer-side, not behavioral).
-  capture: Capture share — share of consumables purchases by channel; sums to 100% per brand.
+  mix: "Purchase mix: share of the base's consumables purchases; sums to 100% per brand."
+  offer_share: "Catalog share: share of consumable SKUs offered (offer-side, not behavioral)."
+  capture: "Capture share: share of consumables purchases by channel; sums to 100% per brand."
 
 audit_labels:
   bundles: Bundles
@@ -51,8 +51,8 @@ deck:
   presentation_eyebrow: How the leaders lock in replenishment
   packs_eyebrow: Plans from the existing catalog
   recommendation_headline: Capture first. Extend later.
-  now_label: Now — today's catalog
-  next_label: Next — new capability
+  now_label: Now - today's catalog
+  next_label: Next - new capability
 
 guidance: >
   Behavioral data means install-base figures: share of registered/active
@@ -60,7 +60,7 @@ guidance: >
   device, mix across consumable lines, and capture by channel. A pack is a
   replenishment plan (subscription, auto-ship, bundle) built from existing
   SKUs. The behavior-shifting benchmark is a competitor whose install base
-  demonstrably replenishes through the brand's own channel — subscription
+  demonstrably replenishes through the brand's own channel - subscription
   attach is the observable proxy in public mode. Leakage to compatibles is a
   product/price question and must be separated from leakage of OWN-brand
   items bought elsewhere, which is a merchandising/channel question.

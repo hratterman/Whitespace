@@ -1,4 +1,4 @@
-# SYNTHETIC demonstration data — all studios, classes, and figures fictional.
+# SYNTHETIC demonstration data - all studios, classes, and figures fictional.
 # The presentation audit, in this premise's terms: how each studio packages,
 # guides, and personalizes its programming (keys are the tool's canonical
 # audit fields; the premise relabels them in every deliverable).
@@ -17,7 +17,7 @@ brand:
   bespoke: false
   notes: >
     Three locations (Harbor East, Midtown, Riverside). Community Run Club is
-    free but unlisted in the app — front-desk word of mouth only.
+    free but unlisted in the app - front-desk word of mouth only.
   source: simulated app + storefront audit, 2026-07
 
 competitors:

@@ -5,15 +5,15 @@ Northstar Motors, Copperline Auto, Vantage Trucks), products, prices, and all
 buyer-behavior figures are fictional, constructed to exercise every branch of
 the reasoning method:
 
-- **Meridian** — the subject brand: commodity-heavy catalog, thin exterior
+- **Meridian** - the subject brand: commodity-heavy catalog, thin exterior
   personalization, one rebranded performance SKU priced at near-parity with
   better competitor products, no packs, no curation.
-- **Northstar Motors** — the behavior-shifting benchmark: personalization-heavy
+- **Northstar Motors** - the behavior-shifting benchmark: personalization-heavy
   purchase mix, named packs sold in the configurator, bespoke program.
-- **Copperline Auto** — the presence ≠ behavior case: a performance sub-brand
+- **Copperline Auto** - the presence ≠ behavior case: a performance sub-brand
   occupying 25% of its catalog while performance is only 7% of its buyers'
   purchases.
-- **Vantage Trucks** — a fellow laggard, showing the pattern isn't universal
+- **Vantage Trucks** - a fellow laggard, showing the pattern isn't universal
   excuse-making material.
 
 The brand catalog also carries three deliberately unmappable SKUs (Comfort /
@@ -36,5 +36,5 @@ or run `python3 -m whitespace prompt examples/meridian` and paste
 `out/prompt.md` into the subscription model.
 
 `sample-report.md` is the deliverable this fixture produces when the full
-workflow runs — kept in the repo as the reference for what output quality
+workflow runs - kept in the repo as the reference for what output quality
 should look like.
