@@ -43,7 +43,7 @@ def catalog_composition(skus: list[Sku]) -> dict:
 
 
 def price_stats(skus: list[Sku]) -> dict:
-    """Median price per bucket — context for depth, not a comparison."""
+    """Median price per bucket - context for depth, not a comparison."""
     out = {}
     priced = sorted((s for s in skus if s.bucket and s.price is not None),
                     key=lambda s: s.bucket)
@@ -65,7 +65,7 @@ def comparable_candidates(brand_skus: list[Sku],
                           competitor_skus: list[Sku],
                           threshold: float = 0.45) -> list[dict]:
     """Propose like-for-like price pairs: same bucket, high name-token overlap,
-    both priced. These are *candidates* — the model confirms or rejects each
+    both priced. These are *candidates* - the model confirms or rejects each
     before any pricing claim is made, and the confidence score travels with
     the pair so weak matches are visible."""
     pairs = []
@@ -94,13 +94,13 @@ def comparable_candidates(brand_skus: list[Sku],
                     "price_delta_pct": round((b.price - c.price) / c.price, 4)
                                        if c.price else None,
                     "match_confidence": round(jaccard, 2),
-                    "status": "candidate — model must confirm comparability",
+                    "status": "candidate - model must confirm comparability",
                 })
     return sorted(pairs, key=lambda p: -p["match_confidence"])
 
 
 def channel_math(buyer_behavior: dict) -> dict | None:
-    """Leakage and capture gaps vs supplied benchmarks. Share points only —
+    """Leakage and capture gaps vs supplied benchmarks. Share points only -
     sizing into dollars needs volume assumptions, which are judgment."""
     brand = (buyer_behavior or {}).get("brand") or {}
     channels = brand.get("channel_capture")

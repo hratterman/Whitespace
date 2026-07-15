@@ -1,5 +1,5 @@
 # Premise: attach economics (the default frame).
-# A premise defines the WORLD the whitespace method runs in — the vocabulary
+# A premise defines the WORLD the whitespace method runs in - the vocabulary
 # for the four diagnostic questions, the channel labels, and the presentation
 # language. The method itself (composition over concentration, behavior over
 # presence, use-what-you-have-first) never changes; only the frame does.
@@ -38,9 +38,9 @@ channels:
   other: Other
 
 captions:
-  mix: Purchase mix — share of each brand's accessory purchases; sums to 100% per brand.
-  offer_share: Catalog share — share of SKUs offered (offer-side, not behavioral).
-  capture: Channel share — share of accessory purchases by channel; sums to 100% per brand.
+  mix: "Purchase mix: share of each brand's accessory purchases; sums to 100% per brand."
+  offer_share: "Catalog share: share of SKUs offered (offer-side, not behavioral)."
+  capture: "Channel share: share of accessory purchases by channel; sums to 100% per brand."
 
 audit_labels:
   bundles: Bundles
@@ -53,13 +53,13 @@ deck:
   presentation_eyebrow: How the leaders merchandise
   packs_eyebrow: Packs from the existing catalog
   recommendation_headline: Merchandise first. Build later.
-  now_label: Now — today's catalog
-  next_label: Next — new capability
+  now_label: Now - today's catalog
+  next_label: Next - new capability
 
 guidance: >
   Behavioral data means buyer-survey or transaction figures: attach rate,
   median accessory spend per buyer, purchase mix, channel capture. A pack is
   a bundled offer of existing SKUs, named by occasion or identity. The
   behavior-shifting benchmark is a competitor whose BUYERS demonstrably skew
-  toward personalization/utility — never merely a competitor that stocks
+  toward personalization/utility - never merely a competitor that stocks
   those categories.

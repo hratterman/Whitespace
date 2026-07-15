@@ -1,7 +1,7 @@
 """`whitespace init`: scaffold a new data directory with fill-in templates.
 
 The buyer-behavior template is written as buyer_behavior.template.yaml on
-purpose — the loader only activates full-diagnostic mode on the exact name
+purpose - the loader only activates full-diagnostic mode on the exact name
 buyer_behavior.yaml, so the scaffold runs in public-data mode until the user
 deliberately renames the filled-in template.
 """
@@ -19,7 +19,7 @@ COMPETITOR_CSV = "competitor,sku_id,name,raw_category,price\n"
 MERCHANDISING = """\
 # Merchandising attributes from a public storefront audit.
 # Fill in the brand and one entry per competitor. Every entry should carry a
-# `source` (what was audited, when) — unsourced attributes get flagged.
+# `source` (what was audited, when) - unsourced attributes get flagged.
 
 brand:
   name: YOUR BRAND NAME
@@ -43,13 +43,13 @@ competitors:
 """
 
 BUYER_BEHAVIOR = """\
-# OPTIONAL — buyer-behavior data (e.g. a syndicated buyer survey).
+# OPTIONAL - buyer-behavior data (e.g. a syndicated buyer survey).
 # This file is a TEMPLATE and is ignored by the tool. When you have real
 # figures, fill it in and rename it to buyer_behavior.yaml to unlock
-# full-diagnostic mode. Do not guess values — the tool treats every figure
+# full-diagnostic mode. Do not guess values - the tool treats every figure
 # here as fact and flags only what it can detect.
 
-source: ""                  # where these figures come from — required for credibility
+source: ""                  # where these figures come from - required for credibility
 
 brand:
   attach_rate: null         # share of buyers purchasing ANY accessory, 0-1
@@ -84,20 +84,20 @@ DIR_README = """\
 
 Fill these in, then run `python3 -m whitespace analyze {dir}`:
 
-1. **brand_catalog.csv** — one row per accessory SKU the brand sells.
+1. **brand_catalog.csv** - one row per accessory SKU the brand sells.
    `raw_category` is whatever the brand's storefront calls it (don't
    pre-translate); `price` numeric; `applicability` (model/line) may be blank.
-2. **competitor_catalog.csv** — same, with a `competitor` column. Two or three
+2. **competitor_catalog.csv** - same, with a `competitor` column. Two or three
    competitors is enough; include one you suspect merchandises well.
-3. **merchandising.yaml** — the storefront-behavior audit (bundles, named
+3. **merchandising.yaml** - the storefront-behavior audit (bundles, named
    packs, curation, bespoke) for the brand and each competitor.
-4. **buyer_behavior.template.yaml** — optional. Fill and RENAME to
+4. **buyer_behavior.template.yaml** - optional. Fill and RENAME to
    `buyer_behavior.yaml` when you have real survey data; it unlocks the
    full attach/spend/mix/channel diagnostic.
 
 Tip: in Claude Code, the guided skill (`/whitespace {dir}` in the tool repo,
 `/whitespace:analyze {dir}` with the plugin installed) will carry the whole
-flow — including converting a messy product export into brand_catalog.csv.
+flow - including converting a messy product export into brand_catalog.csv.
 """
 
 

@@ -89,7 +89,7 @@
     <h1>Whitespace workbench</h1>
     <div class="sub">Find where you're leaving value on the table versus competitors.
       The math runs here on your machine; the strategy judgment runs on your Claude
-      subscription — no API key, nothing leaves your computer except what you paste
+      subscription - no API key, nothing leaves your computer except what you paste
       into Claude yourself.</div>
     <div class="dir" id="dir"></div>
   </header>
@@ -98,7 +98,7 @@
     <h2><span class="n">1</span>Your data</h2>
     <p class="hint">Drop a file on a card (or click it to browse). Only
       <b>brand_catalog.csv</b> and <b>competitor_catalog.csv</b> and
-      <b>merchandising.yaml</b> are required — everything else upgrades the
+      <b>merchandising.yaml</b> are required - everything else upgrades the
       analysis. Headers don't need to match exactly; common export names
       (Product, MSRP, SKU…) are understood.</p>
     <div class="row" id="initrow">
@@ -127,14 +127,14 @@
     <div class="seam">Copy the reasoning prompt, paste it into
       <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>
       (any paid plan), then paste Claude's whole reply back below. The prompt
-      carries the method, the output contracts, and your computed analysis —
+      carries the method, the output contracts, and your computed analysis -
       Claude writes the strategy; this page never calls a model.</div>
     <div class="row">
       <button onclick="copyPrompt()" id="promptBtn" disabled>Copy reasoning prompt</button>
       <a href="https://claude.ai" target="_blank" rel="noopener" style="font-size:13.5px">open claude.ai ↗</a>
     </div>
     <div class="row" style="display:block">
-      <textarea id="reply" placeholder="Paste Claude's full reply here (the report followed by a ```json block) — or just the JSON block."></textarea>
+      <textarea id="reply" placeholder="Paste Claude's full reply here (the report followed by a ```json block) - or just the JSON block."></textarea>
     </div>
     <div class="row"><button onclick="doRender()" id="renderBtn" disabled>Render deliverables</button></div>
     <div class="cards" id="renderMsg"></div>
@@ -230,12 +230,12 @@ async function doAnalyze(){
     <div class="stat"><div class="k">competitors</div><div class="v">${nComp}</div>
       <div class="d">${esc(Object.keys(comp.competitors).join(", "))}</div></div>
     <div class="stat"><div class="k">needs a judgment call</div><div class="v">${unmapped.length}</div>
-      <div class="d">unmapped ${unmapped.length===1?"entry":"entries"} — Claude resolves these</div></div>
+      <div class="d">unmapped ${unmapped.length===1?"entry":"entries"} - Claude resolves these</div></div>
     <div class="stat"><div class="k">data flags</div><div class="v">${a.data_flags.length}</div>
       <div class="d">carried into the report appendix</div></div>`;
   flags.innerHTML =
     a.data_flags.map(f=>`<div class="card warn">⚑ ${esc(f)}</div>`).join("") +
-    unmapped.map(u=>`<div class="card">? ${esc(u.name)} (${esc(u.raw_category)||"no category"}) — Claude will place this</div>`).join("");
+    unmapped.map(u=>`<div class="card">? ${esc(u.name)} (${esc(u.raw_category)||"no category"}) - Claude will place this</div>`).join("");
   // offer-side composition preview, brand vs first competitor
   const first=Object.keys(comp.competitors)[0];
   const ents=[["brand",a.meta.brand,"#2a78d6"],[first,first,"#1baf7a"]];
@@ -255,14 +255,14 @@ async function copyPrompt(){
   const res=await(await fetch("/api/prompt")).json();
   if(res.error) return toast(res.error);
   await navigator.clipboard.writeText(res.prompt);
-  toast(`prompt copied (${Math.round(res.prompt.length/1000)}k chars) — paste it into claude.ai`);
+  toast(`prompt copied (${Math.round(res.prompt.length/1000)}k chars) - paste it into claude.ai`);
 }
 
 async function doRender(){
   const msg=$("renderMsg");msg.innerHTML="";
   const res=await(await fetch("/api/report",{method:"POST",body:$("reply").value})).json();
   if(res.error){msg.innerHTML=`<div class="card err">${esc(res.error)}</div>`;return;}
-  msg.innerHTML=`<div class="card ok">✓ deliverables rendered${res.hasProse?"":" (no memo prose found — deck and one-pager only)"}</div>`;
+  msg.innerHTML=`<div class="card ok">✓ deliverables rendered${res.hasProse?"":" (no memo prose found - deck and one-pager only)"}</div>`;
   $("mdcard").style.display=res.hasProse?"block":"none";
   $("step-out").classList.remove("hidden");
   $("deckframe").src="/out/deck.html?"+Date.now();

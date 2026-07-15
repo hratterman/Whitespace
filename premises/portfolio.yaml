@@ -3,7 +3,7 @@
 # their own, and (optionally) data on what customers actually choose:
 # content libraries, practice areas, program schedules, feature sets.
 # Prefer deriving a sharper custom premise when the world has its own
-# vocabulary — this preset is the honest generic fallback.
+# vocabulary - this preset is the honest generic fallback.
 
 key: portfolio
 name: Portfolio whitespace
@@ -38,9 +38,9 @@ channels:
   other: Other
 
 captions:
-  mix: Choice mix — share of customer choices by bucket; sums to 100% per player.
-  offer_share: Portfolio share — share of offerings listed (offer-side, not behavioral).
-  capture: Capture share — share of engagement by channel; sums to 100% per player.
+  mix: "Choice mix: share of customer choices by bucket; sums to 100% per player."
+  offer_share: "Portfolio share: share of offerings listed (offer-side, not behavioral)."
+  capture: "Capture share: share of engagement by channel; sums to 100% per player."
 
 audit_labels:
   bundles: Bundled offers
@@ -53,16 +53,16 @@ deck:
   presentation_eyebrow: How the leaders package & guide
   packs_eyebrow: Packages from the existing portfolio
   recommendation_headline: Package first. Build later.
-  now_label: Now — today's portfolio
-  next_label: Next — new capability
+  now_label: Now - today's portfolio
+  next_label: Next - new capability
 
 guidance: >
   Behavioral data means whatever measures real customer choice in this world
-  — purchases, bookings, enrollments, usage. Keep the discipline intact:
+  - purchases, bookings, enrollments, usage. Keep the discipline intact:
   choice mix is share of choices (sums to 100%); participation is the only
   share-of-customers figure; offer-side shares are never behavioral claims.
   The behavior-shifting benchmark is the competitor whose CUSTOMERS
   demonstrably choose the under-developed buckets, not the one with the
   biggest menu. Before running, confirm the frame fits: distinct offerings,
   real competitors, and a mix dimension. If any is missing, this is the
-  wrong tool — say so.
+  wrong tool - say so.

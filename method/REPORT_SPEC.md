@@ -1,11 +1,11 @@
-# report.json — the structured judgment artifact
+# report.json - the structured judgment artifact
 
 Alongside the narrative `report.md`, the reasoning layer writes `report.json`
 to the same `out/` directory. It carries the *judgment* content of the
 analysis in structured form; `python3 -m whitespace render <data-dir>` then
 combines it with `analysis.json` (which supplies all chart data) to produce
-the presentation deliverables — `deck.html` (slide deck) and `onepager.html`
-(executive one-pager) — deterministically, so every deck is polished and
+the presentation deliverables - `deck.html` (slide deck) and `onepager.html`
+(executive one-pager) - deterministically, so every deck is polished and
 chart-accurate without the model hand-writing HTML.
 
 Rules of the file:
@@ -13,13 +13,15 @@ Rules of the file:
 - Use the premise's vocabulary everywhere (`analysis.premise`): its question
   labels in `diagnosis.pattern`, its pack noun in pack copy, its channel
   language in the capture narrative. The renderer pulls section labels and
-  captions from the premise automatically — your prose must match them.
-- Prose fields hold finished, presentation-ready sentences — the same
+  captions from the premise automatically - your prose must match them.
+- Prose fields hold finished, presentation-ready sentences - the same
   editorial standard as `report.md`, not notes.
 - Numbers quoted in prose must come from `analysis.json` or be clearly
   derived arithmetic; the renderer never checks your math, the method does.
-- Omit a section (or set it `null`) when the mode doesn't support it — e.g.
+- Omit a section (or set it `null`) when the mode doesn't support it - e.g.
   `channel` in public-data mode. The renderer skips missing slides.
+- House style: never use em dashes or en dashes in any field. Use commas,
+  colons, parentheses, or plain hyphens instead.
 - `display` strings in the diagnosis pattern are human-formatted ("64%",
   "$310") because the renderer does no number formatting.
 
@@ -27,18 +29,18 @@ Rules of the file:
 
 ```jsonc
 {
-  "title": "deck title — the thesis, not the topic",
+  "title": "deck title - the thesis, not the topic",
   "subtitle": "one line: scope, mode, date",
   "badge": "optional chip shown on every slide, e.g. 'Synthetic demonstration data'",
   "why_it_matters": "the money-at-stake framing, 1-2 sentences",
 
   "diagnosis": {
-    "verdict": "short verdict line, e.g. 'A merchandising problem — not a demand problem'",
+    "verdict": "short verdict line, e.g. 'A merchandising problem - not a demand problem'",
     "narrative": "the argument, 2-4 sentences",
     "pattern": [                      // full-diagnostic mode: exactly the 4 questions; public mode: []
       { "question": "Attach", "sub": "do buyers buy anything?",
         "brand_display": "64%", "benchmark_display": "66% (Northstar)",
-        "read": "Normal — demand exists", "tone": "good|warn|bad" }
+        "read": "Normal - demand exists", "tone": "good|warn|bad" }
     ]
   },
 
@@ -82,7 +84,7 @@ Rules of the file:
 
   "appendix": {
     "mapping_resolutions": [ { "sku": "MR-6001 Cabin Air Ionizer", "bucket": "lifestyle_whitespace", "reason": "..." } ],
-    "comparability_calls": [ "Bed Cargo Divider vs Bed Cargo Net — rejected: different products" ],
+    "comparability_calls": [ "Bed Cargo Divider vs Bed Cargo Net - rejected: different products" ],
     "data_flags": [ "..." ],          // carry through every analysis.json flag
     "figure_types_note": "one paragraph defining the figure types used"
   }

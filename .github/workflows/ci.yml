@@ -17,13 +17,18 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -r requirements.txt
+      - name: House style: no em or en dashes anywhere
+        run: |
+          if grep -rInP '\xe2\x80\x94|\xe2\x80\x93' --exclude-dir=.git --exclude-dir=out --exclude-dir=__pycache__ --exclude='*.png' .; then
+            echo "em/en dash found; house style forbids them" && exit 1
+          fi
       - name: Unit tests
         run: python -m unittest discover -s tests -v
-      - name: Smoke — full-diagnostic fixture (automotive)
+      - name: Smoke - full-diagnostic fixture (automotive)
         run: python -m whitespace prompt examples/meridian
-      - name: Smoke — public-data fixture with taxonomy override (coffee)
+      - name: Smoke - public-data fixture with taxonomy override (coffee)
         run: python -m whitespace analyze examples/solstice
-      - name: Smoke — deck + one-pager render on both fixtures
+      - name: Smoke - deck + one-pager render on both fixtures
         run: |
           cp examples/meridian/sample-report.json examples/meridian/out/report.json
           python -m whitespace render examples/meridian
@@ -32,7 +37,7 @@ jobs:
           python -m whitespace analyze examples/harborline
           cp examples/harborline/sample-report.json examples/harborline/out/report.json
           python -m whitespace render examples/harborline
-      - name: Smoke — scaffold guards against empty inputs
+      - name: Smoke - scaffold guards against empty inputs
         run: |
           python -m whitespace init /tmp/ci-scaffold --brand "CI Brand"
           if python -m whitespace analyze /tmp/ci-scaffold; then

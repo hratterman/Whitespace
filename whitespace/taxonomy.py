@@ -3,7 +3,7 @@
 The taxonomy lives in taxonomy.yaml (repo root by default, overridable per
 data directory). Deterministic rules map each SKU's raw category (then its
 name) to a bucket. Anything the rules can't place lands in `unmapped` for the
-model to resolve — it is never silently dumped into `other`.
+model to resolve - it is never silently dumped into `other`.
 """
 
 from __future__ import annotations

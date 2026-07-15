@@ -2,7 +2,7 @@
 
 For people who don't run Claude Code: drag data files in, see validation as
 friendly cards, copy the reasoning prompt for claude.ai, paste the reply
-back, and view the rendered deliverables — all on localhost, all stdlib.
+back, and view the rendered deliverables - all on localhost, all stdlib.
 The model seam stays intact: the judgment work happens on the user's Claude
 subscription; this server never calls a model.
 """
@@ -25,7 +25,7 @@ from .scaffold import init_data_dir
 TEMPLATE = Path(__file__).resolve().parent / "templates" / "workbench.html"
 
 # The only files the workbench may write into the data dir, and the only
-# artifacts it may serve back out — no path from the client is ever used.
+# artifacts it may serve back out - no path from the client is ever used.
 UPLOADABLE = {"brand_catalog.csv", "competitor_catalog.csv", "merchandising.yaml",
               "buyer_behavior.yaml", "taxonomy.yaml", "premise.yaml"}
 SERVABLE_OUT = {"deck.html", "onepager.html", "report.md", "analysis.json", "prompt.md"}
@@ -40,7 +40,7 @@ def _extract_report(pasted: str) -> tuple[dict, str | None]:
     pasted = pasted.strip()
     match = None
     for match in _FENCE.finditer(pasted):
-        pass  # keep the LAST fenced json block — the reply ends with report.json
+        pass  # keep the LAST fenced json block - the reply ends with report.json
     if match:
         report = json.loads(match.group(1))
         prose = pasted[:match.start()].strip()
@@ -109,7 +109,7 @@ class WorkbenchHandler(BaseHTTPRequestHandler):
             if self.path == "/api/upload":
                 name = self.headers.get("X-Filename", "")
                 if name not in UPLOADABLE:
-                    return self._json({"error": f"unsupported file name {name!r} — "
+                    return self._json({"error": f"unsupported file name {name!r} - "
                                        f"expected one of: {', '.join(sorted(UPLOADABLE))}"}, 400)
                 content = self._body().decode("utf-8-sig", errors="replace")
                 self.data_dir.mkdir(parents=True, exist_ok=True)
@@ -126,7 +126,7 @@ class WorkbenchHandler(BaseHTTPRequestHandler):
                     report, prose = _extract_report(self._body().decode("utf-8"))
                 except (json.JSONDecodeError, ValueError) as e:
                     return self._json({"error": "couldn't find a valid report.json in the "
-                                       f"pasted reply ({e}) — paste Claude's full response, "
+                                       f"pasted reply ({e}) - paste Claude's full response, "
                                        "or just its ```json block"}, 400)
                 out = self.data_dir / "out"
                 try:

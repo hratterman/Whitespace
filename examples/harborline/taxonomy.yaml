@@ -1,5 +1,5 @@
 # Domain taxonomy: studio class formats. A derived premise may define its own
-# bucket keys entirely — the method reasons over strategic *types*, and this
+# bucket keys entirely - the method reasons over strategic *types*, and this
 # world's types are its own. Keys here must match the buyer file's
 # booking-mix keys (the tool cross-checks and flags typos).
 
@@ -8,7 +8,7 @@ buckets:
     label: "Foundational / Intro"
     description: >
       Entry points and basics: beginner series, foundations, intro clinics.
-      High participation, low ceiling — every studio has them.
+      High participation, low ceiling - every studio has them.
   strength_progression:
     label: "Strength & Progression"
     description: >
@@ -30,7 +30,7 @@ buckets:
   community_beyond:
     label: "Community & Beyond-the-Workout"
     description: >
-      Events, run clubs, workshops, nutrition, social programming — habit
+      Events, run clubs, workshops, nutrition, social programming - habit
       glue and halo, not volume.
   other:
     label: "Other"

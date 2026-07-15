@@ -4,7 +4,7 @@ Combines analysis.json (all chart data, computed) with report.json (the
 model's structured judgment, per method/REPORT_SPEC.md) into self-contained
 HTML deliverables: deck.html (slide deck) and onepager.html (executive
 one-pager). Templates carry the design; this module only validates the
-report contract and injects the payload — no HTML is model-authored.
+report contract and injects the payload - no HTML is model-authored.
 """
 
 from __future__ import annotations

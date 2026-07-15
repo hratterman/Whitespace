@@ -102,7 +102,7 @@ def _resolve_columns(fieldnames: list[str], filename: str,
     for field, note in [("raw_category", "every SKU will need model-side bucket resolution"),
                         ("price", "price comparison and price stats disabled")]:
         if field not in resolved:
-            flags.append(f"{filename}: no {field} column found — {note}")
+            flags.append(f"{filename}: no {field} column found - {note}")
     return resolved
 
 
@@ -165,7 +165,7 @@ def _check_shares(mapping: dict, label: str, flags: list[str]) -> None:
         return
     total = sum(v for v in mapping.values() if isinstance(v, (int, float)))
     if abs(total - 1.0) > 0.02:
-        flags.append(f"{label} sums to {total:.2f}, expected ~1.00 — figures reported as-supplied")
+        flags.append(f"{label} sums to {total:.2f}, expected ~1.00 - figures reported as-supplied")
 
 
 def _validate_buyer_behavior(bb: dict, flags: list[str]) -> None:
@@ -174,14 +174,14 @@ def _validate_buyer_behavior(bb: dict, flags: list[str]) -> None:
     _check_shares(brand.get("purchase_mix") or {}, "brand purchase_mix (mix %, share of purchases)", flags)
     attach = brand.get("attach_rate")
     if attach is not None and not (0 <= attach <= 1):
-        flags.append(f"brand attach_rate {attach} outside [0,1] — reported as-supplied")
+        flags.append(f"brand attach_rate {attach} outside [0,1] - reported as-supplied")
     for bench in bb.get("benchmarks") or []:
         who = bench.get("name", "unnamed benchmark")
         _check_shares(bench.get("channel_capture") or {}, f"{who} channel_capture", flags)
         _check_shares(bench.get("purchase_mix") or {}, f"{who} purchase_mix (mix %)", flags)
     src = bb.get("source")
     if not src:
-        flags.append("buyer_behavior has no `source` field — all diagnostic figures must be "
+        flags.append("buyer_behavior has no `source` field - all diagnostic figures must be "
                      "presented as unverified")
 
 
@@ -198,11 +198,11 @@ def load_inputs(data_dir: str | Path) -> Inputs:
 
     brand_catalog = _load_catalog_csv(brand_path, flags, competitor_col=False)
     if not brand_catalog:
-        raise ValueError(f"{brand_path} has no SKU rows yet — fill in the template "
+        raise ValueError(f"{brand_path} has no SKU rows yet - fill in the template "
                          "(see the data directory's README.md)")
     comp_rows = _load_catalog_csv(comp_path, flags, competitor_col=True)
     if not comp_rows:
-        raise ValueError(f"{comp_path} has no SKU rows yet — competitor assortment is "
+        raise ValueError(f"{comp_path} has no SKU rows yet - competitor assortment is "
                          "required for benchmarking")
 
     competitor_catalogs: dict[str, list[Sku]] = {}

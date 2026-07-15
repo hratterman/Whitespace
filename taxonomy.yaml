@@ -1,9 +1,9 @@
-# Category-to-bucket taxonomy — the explicit, inspectable mapping layer.
+# Category-to-bucket taxonomy - the explicit, inspectable mapping layer.
 #
 # Buckets are the category *types* the composition analysis runs on (spec §6.2).
 # Deterministic code applies `mapping` rules in order: exact raw-category match,
 # then keyword rules against the raw category, then against the SKU name.
-# Anything unmatched is surfaced as `unmapped` for the model to resolve — it is
+# Anything unmatched is surfaced as `unmapped` for the model to resolve - it is
 # never silently binned. Model resolutions are recorded in the analysis object
 # so every mapping decision stays auditable.
 #
@@ -43,7 +43,7 @@ buckets:
     label: "Other"
     description: >
       Genuinely uncategorizable after review. Assignments here should be rare
-      and deliberate, made by the model with a recorded reason — the
+      and deliberate, made by the model with a recorded reason - the
       deterministic rules never place anything in this bucket.
 
 mapping:

@@ -1,7 +1,7 @@
 # Custom premise, derived for this world (boutique fitness studios).
 # This is what the skill produces when a user's problem doesn't match a
-# preset: the same four canonical questions — participation / depth / mix /
-# capture — named in the world's own vocabulary. The frame is a recorded,
+# preset: the same four canonical questions - participation / depth / mix /
+# capture - named in the world's own vocabulary. The frame is a recorded,
 # inspectable judgment, exactly like the bucket taxonomy beside it.
 
 key: studio-schedule
@@ -36,9 +36,9 @@ channels:
   dropin: Walk-in & other
 
 captions:
-  mix: Booking mix — share of each studio's class bookings; sums to 100% per studio.
-  offer_share: Schedule share — share of class formats offered (offer-side, not behavioral).
-  capture: Booking share — share of bookings by channel; sums to 100% per studio.
+  mix: "Booking mix: share of each studio's class bookings; sums to 100% per studio."
+  offer_share: "Schedule share: share of class formats offered (offer-side, not behavioral)."
+  capture: "Booking share: share of bookings by channel; sums to 100% per studio."
 
 audit_labels:
   bundles: Bundled offers
@@ -51,16 +51,16 @@ deck:
   presentation_eyebrow: How the leaders program & guide
   packs_eyebrow: Programs from the existing schedule
   recommendation_headline: Program first. Build later.
-  now_label: Now — today's schedule
-  next_label: Next — new capability
+  now_label: Now - today's schedule
+  next_label: Next - new capability
 
 guidance: >
   Behavioral data means member-app analytics: share of members booking any
-  class in a month (participation — the only share-of-members figure),
+  class in a month (participation - the only share-of-members figure),
   median visits per active member per month (depth), booking mix by class
   type (sums to 100% per studio), and booking channel split. A "program" is
   a named, goal-based sequence assembled from classes already on the
-  schedule — the analog of a pack. The behavior-shifting benchmark is a
+  schedule - the analog of a pack. The behavior-shifting benchmark is a
   studio whose MEMBERS demonstrably book the under-developed class types;
   a big specialty menu with basic-cardio bookings is presence, not behavior.
   Aggregator bookings carry a revenue-share cost, so capture is a margin

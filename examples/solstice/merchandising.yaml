@@ -1,5 +1,5 @@
-# SYNTHETIC demonstration data — all brands, products, and figures fictional.
-# Second-domain fixture (espresso gear) — runs in public-data mode: no
+# SYNTHETIC demonstration data - all brands, products, and figures fictional.
+# Second-domain fixture (espresso gear) - runs in public-data mode: no
 # buyer_behavior.yaml on purpose, to show the graceful-degradation story.
 
 brand:
@@ -10,7 +10,7 @@ brand:
   curation_level: none
   curation_notes: >
     Accessories live under a single "Parts & Accessories" page sorted
-    alphabetically; the Walnut Tamper Handle — the only personalization SKU —
+    alphabetically; the Walnut Tamper Handle - the only personalization SKU -
     is buried between water filters and cleaning cloths; no kit suggestions
     at machine purchase; no imagery of a dressed-up machine or finished bar.
   bespoke: false

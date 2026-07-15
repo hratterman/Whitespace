@@ -1,7 +1,7 @@
 """Premise loading: the frame the whitespace method runs in.
 
-A premise defines vocabulary — the four diagnostic questions, channel labels,
-presentation language — never the method. Resolution order:
+A premise defines vocabulary - the four diagnostic questions, channel labels,
+presentation language - never the method. Resolution order:
 
   1. <data-dir>/premise.yaml            a full custom premise, or
                                         {preset: <key>} + optional overrides
